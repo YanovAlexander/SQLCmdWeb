@@ -5,12 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ua.com.juja</groupId>
-    <artifactId>sqlcmdweb</artifactId>
+    <artifactId>sqlcmd</artifactId>
     <version>1.0</version>
 
     <packaging>war</packaging>
-    <name>sqlcmdweb</name>
-    <description>sqlcmdweb</description>
+    <name>sqlcmd</name>
+    <description>sqlcmd</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 
     <dependencies>
@@ -53,8 +57,7 @@
     </dependencies>
 
     <build>
-        <finalName>${artifactId}</finalName>
-
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -66,24 +69,19 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>ua.com.juja.controller.Main</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <port>8080</port>
+                    <path>/sqlcmd</path>
                 </configuration>
             </plugin>
         </plugins>

@@ -34,5 +34,6 @@
     -> To terminate the application<br>
  help<br>
     -> To display this list on the screen<br>
+<%@include file="footer.jsp" %>
 </body>
 </html>

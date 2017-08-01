@@ -9,4 +9,6 @@ public interface DataSet {
     List<Object> getValues();
 
     Set<String> getNames();
+
+    Object get(String name);
 }
