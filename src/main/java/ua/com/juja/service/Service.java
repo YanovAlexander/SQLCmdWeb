@@ -11,4 +11,6 @@ public interface Service {
     DatabaseManager connect(String databaseName, String userName, String password);
 
     List<List<String>> find(DatabaseManager manager, String tableName);
+
+    void clear(DatabaseManager manager, String tableName);
 }

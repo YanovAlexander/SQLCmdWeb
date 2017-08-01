@@ -10,7 +10,7 @@ public class ServiceImpl implements Service {
 
     @Override
     public List<String> commandsList() {
-        return Arrays.asList("help", "menu", "connect", "find");
+        return Arrays.asList("help", "menu", "connect", "find", "clear");
     }
 
     @Override
@@ -33,5 +33,10 @@ public class ServiceImpl implements Service {
             columns.forEach(column -> row.add(dataSet.get(column).toString()));
         });
         return result;
+    }
+
+    @Override
+    public void clear(DatabaseManager manager, String tableName) {
+        manager.clear(tableName);
     }
 }
