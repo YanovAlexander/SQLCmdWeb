@@ -13,4 +13,8 @@ public interface Service {
     List<List<String>> find(DatabaseManager manager, String tableName);
 
     void clear(DatabaseManager manager, String tableName);
+
+    void createdatabase(DatabaseManager manager, String databaseName);
+
+    void createtable(DatabaseManager manager, String sql);
 }

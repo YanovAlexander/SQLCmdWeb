@@ -46,6 +46,18 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/clear")) {
             service.clear(manager, "users");
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
+        } else if (action.startsWith("/createdbform")) {
+            req.getRequestDispatcher("createdbform.jsp").forward(req, resp);
+        } else if (action.startsWith("/createtableform")) {
+            req.getRequestDispatcher("createtableform.jsp").forward(req, resp);
+        }else if (action.startsWith("/createdb")) {
+            String dbname = (String) req.getSession().getAttribute("db_name");
+            service.createdatabase(manager,dbname);
+            req.getRequestDispatcher("createdb.jsp").forward(req, resp);
+        }else if (action.startsWith("/createtable")) {
+            String sql = (String) req.getSession().getAttribute("create_table");
+            service.createtable(manager,sql);
+            req.getRequestDispatcher("createtable.jsp").forward(req, resp);
         } else if (action.startsWith("/find")) {
 //            String tableName = req.getParameter("table");
             req.setAttribute("table", service.find(manager, "users"));
@@ -73,6 +85,19 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
+        }else if (action.startsWith("/createdbform")){
+            String databaseName = req.getParameter("dbname");
+            req.getSession().setAttribute("db_name", databaseName);
+            resp.sendRedirect(resp.encodeRedirectURL("createdb"));
+        }else if (action.startsWith("/createtableform")){
+            String tableName = req.getParameter("tablename");
+            String column1 = req.getParameter("column1");
+            String column2 = req.getParameter("column2");
+            String column3 = req.getParameter("column3");
+            String sql = tableName + "(" + column1 + " SERIAL NOT NULL PRIMARY KEY," + column2 +
+                    " varchar(255)," + column3 + " varchar(255))";
+            req.getSession().setAttribute("create_table", sql);
+            resp.sendRedirect(resp.encodeRedirectURL("createtable"));
         }
     }
 

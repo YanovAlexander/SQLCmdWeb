@@ -10,7 +10,7 @@ public class ServiceImpl implements Service {
 
     @Override
     public List<String> commandsList() {
-        return Arrays.asList("help", "menu", "connect", "find", "clear");
+        return Arrays.asList("help", "menu", "connect", "find", "clear", "createdbform", "createtableform");
     }
 
     @Override
@@ -38,5 +38,15 @@ public class ServiceImpl implements Service {
     @Override
     public void clear(DatabaseManager manager, String tableName) {
         manager.clear(tableName);
+    }
+
+    @Override
+    public void createdatabase(DatabaseManager manager, String databaseName) {
+        manager.createDatabase(databaseName);
+    }
+
+    @Override
+    public void createtable(DatabaseManager manager, String sql) {
+        manager.createTable(sql);
     }
 }
