@@ -1,6 +1,7 @@
 package ua.com.juja.service;
 
 import ua.com.juja.model.DataSet;
+import ua.com.juja.model.DataSetImpl;
 import ua.com.juja.model.DatabaseManager;
 import ua.com.juja.model.PostgresManager;
 
@@ -10,7 +11,8 @@ public class ServiceImpl implements Service {
 
     @Override
     public List<String> commandsList() {
-        return Arrays.asList("help", "menu", "connect", "find", "clear", "createdbform", "createtableform");
+        return Arrays.asList("help", "menu", "connect", "find", "clear", "createdbform", "createtableform",
+                "databaselist", "deletedbform", "deletetableform", "insertentryform");
     }
 
     @Override
@@ -48,5 +50,37 @@ public class ServiceImpl implements Service {
     @Override
     public void createtable(DatabaseManager manager, String sql) {
         manager.createTable(sql);
+    }
+
+    @Override
+    public Set<String> databaselist(DatabaseManager manager) {
+        Set<String> databases = manager.databasesList();
+        databases.forEach(database -> database.toString());
+        return databases;
+    }
+
+    @Override
+    public void deletedatabase(DatabaseManager manager, String dbname) {
+        manager.deleteDatabase(dbname);
+    }
+
+    @Override
+    public void deletetable(DatabaseManager manager, String tableName) {
+        manager.deleteTable(tableName);
+    }
+
+    @Override
+    public void insertentry(DatabaseManager manager, String tableName, String columnNames, String values) {
+        String[] column = columnNames.split(" ");
+        String[] value = values.split(" ");
+
+        DataSet dataset = new DataSetImpl();
+        for (int i = 0; i < column.length; i++) {
+            for (int j = 0; j < value.length; j++) {
+                dataset.put(column[i], value[i]);
+                break;
+            }
+        }
+        manager.create(tableName, dataset);
     }
 }

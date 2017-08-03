@@ -5,15 +5,15 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<form action="createdbform" method="post">
+<form action="deletetableform" method="post">
     <table>
         <tr>
             <td>Database name</td>
-            <td><input  name="dbname"/></td>
+            <td><input  name="tablename"/></td>
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" value="create"/></td>
+            <td><input type="submit" value="delete"/></td>
         </tr>
     </table>
 </form>

@@ -5,27 +5,38 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<form action="createtableform" method="post">
+<form action="insertentryform" method="post">
     <table>
         <tr>
             <td>Table name</td>
             <td><input  name="tablename"/></td>
         </tr>
         <tr>
-            <td>Column 1(Primary key)</td>
+            <td>Column 1(Primary key) Name</td>
             <td><input  name="column1"/></td>
+        </tr> <tr>
+            <td>Column 1(Primary key) Value</td>
+            <td><input  name="column1_value"/></td>
         </tr>
         <tr>
-            <td>Column 2</td>
+            <td>Column 2 Name</td>
             <td><input name="column2"/></td>
         </tr>
         <tr>
-            <td>Column 3</td>
+            <td>Column 2 Value</td>
+            <td><input name="column2_value"/></td>
+        </tr>
+        <tr>
+            <td>Column 3 Name</td>
             <td><input name="column3"/></td>
         </tr>
         <tr>
+            <td>Column 3 Value</td>
+            <td><input name="column3_value"/></td>
+        </tr>
+        <tr>
             <td></td>
-            <td><input type="submit" value="create"/></td>
+            <td><input type="submit" value="update"/></td>
         </tr>
     </table>
 </form>
