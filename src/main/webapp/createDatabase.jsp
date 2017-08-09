@@ -5,17 +5,19 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<form action="createdbform" method="post">
+<form action="createDatabase" method="post">
     <table>
         <tr>
             <td>Database name</td>
-            <td><input  name="dbname"/></td>
+            <td><input name="databaseName"/></td>
         </tr>
+
         <tr>
             <td></td>
-            <td><input type="submit" value="create"/></td>
+            <td><input type="submit" value="createDatabase"/></td>
         </tr>
     </table>
 </form>
+<%@include file="footer.jsp" %>
 </body>
 </html>

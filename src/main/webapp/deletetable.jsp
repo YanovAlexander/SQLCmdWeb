@@ -5,7 +5,18 @@
     <title>SQLCmd</title>
 </head>
 <body>
-Table Deleted!
+<form action="deletetableform" method="post">
+    <table>
+        <tr>
+            <td>Database name</td>
+            <td><input  name="tablename"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="delete"/></td>
+        </tr>
+    </table>
+</form>
 <%@include file="footer.jsp" %>
 </body>
 </html>

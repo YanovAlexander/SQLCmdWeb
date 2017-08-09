@@ -9,11 +9,11 @@
     <table>
         <tr>
             <td>Database name</td>
-            <td><input  name="dbname"/></td>
+            <td><input  name="database"/></td>
         </tr>
         <tr>
             <td>User name</td>
-            <td><input  name="username"/></td>
+            <td><input  name="user"/></td>
         </tr>
         <tr>
             <td>Password</td>

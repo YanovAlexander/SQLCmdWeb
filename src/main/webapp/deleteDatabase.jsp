@@ -5,16 +5,16 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<form action="clear" method="post">
+<form action="deleteDatabase" method="post">
     <table>
         <tr>
-            <td>Table name</td>
-            <td><input name="tableName"/></td>
+            <td>Database name</td>
+            <td><input name="databaseName"/></td>
         </tr>
 
         <tr>
             <td></td>
-            <td><input type="submit" value="clear"/></td>
+            <td><input type="submit" value="deleteDatabase"/></td>
         </tr>
     </table>
 </form>

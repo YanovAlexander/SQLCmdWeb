@@ -16,7 +16,5 @@ public class Main {
         View view = new Console();
         DatabaseManager manager = new PostgresManager();
 
-        MainController controller = new MainController(view, manager);
-        controller.run();
     }
 }

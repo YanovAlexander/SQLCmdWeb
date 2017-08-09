@@ -1,8 +1,13 @@
 package ua.com.juja.model;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.sql.*;
 import java.util.*;
 
+@Component
+@Scope(value = "prototype")
 public class PostgresManager implements DatabaseManager {
 
     private Connection connection;
@@ -19,8 +24,7 @@ public class PostgresManager implements DatabaseManager {
         Set<String> tables = new LinkedHashSet<>();
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT table_name FROM information_schema.tables " +
-                     "WHERE table_schema = 'public'"))
-        {
+                     "WHERE table_schema = 'public'")) {
             while (resultSet.next()) {
                 tables.add(resultSet.getString("table_name"));
             }
@@ -31,22 +35,26 @@ public class PostgresManager implements DatabaseManager {
     }
 
     @Override
-    public List<DataSet> getTableData(String tableName) {
-        List<DataSet> result = new LinkedList<>();
+    public List<String> getTableData(String tableName) {
         try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM public." + tableName))
-        {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM public." + tableName)) {
             ResultSetMetaData metaData = resultSet.getMetaData();
-            int columnSize = metaData.getColumnCount();
-            while (resultSet.next()) {
-                DataSet dataSet = new DataSetImpl();
-                result.add(dataSet);
-                for (int i = 1; i <= columnSize; i++) {
-                    dataSet.put(metaData.getColumnName(i), resultSet.getObject(i));
-                }
-
+            List<String> tableData = new ArrayList<>();
+            tableData.add(String.valueOf(metaData.getColumnCount()));
+            for (int indexColumn = 1; indexColumn <= metaData.getColumnCount(); indexColumn++) {
+                tableData.add(resultSet.getMetaData().getColumnName(indexColumn));
             }
-            return result;
+
+            while (resultSet.next()) {
+                for (int indexData = 1; indexData <= metaData.getColumnCount(); indexData++) {
+                    if (resultSet.getString(indexData) == null) {
+                        tableData.add("");
+                    } else {
+                        tableData.add(resultSet.getString(indexData));
+                    }
+                }
+            }
+            return tableData;
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -95,32 +103,27 @@ public class PostgresManager implements DatabaseManager {
     }
 
     @Override
-    public void create(String tableName, DataSet input) {
+    public void create(String tableName, Map<String, Object> columnData) {
         try (Statement statement = connection.createStatement()) {
 
-            String tableNames = getNamesFormatted(input, "%s,");
-            String values = getValuesFormatted(input, "'%s',");
+            String tableNames = getNamesFormatted(columnData);
+            String values = getValuesFormatted(columnData);
 
-            statement.executeUpdate("INSERT INTO " + tableName + "(" + tableNames + ") "
-                    + "VALUES (" + values + ")");
+            statement.executeUpdate("INSERT INTO " + tableName + " (" + tableNames + ")" +
+                    " VALUES (" + values + ")");
         } catch (SQLException e) {
-            throw  new DatabaseManagerException("Cant insert to " + tableName , e.getCause());
+            throw new DatabaseManagerException("Cant insert to " + tableName, e.getCause());
         }
     }
 
     @Override
-    public void update(String tableName, int id, DataSet newValue) {
-        String tableNames = getNamesFormatted(newValue, "%s = ?,");
-        String sql = "UPDATE PUBLIC." + tableName + " SET " + tableNames + " WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql))
-        {
-            int index = 1;
-            for (Object value : newValue.getValues()) {
-                preparedStatement.setObject(index, value);
-                index++;
+    public void update(String tableName, String keyName, String keyValue, Map<String, Object> columnData) {
+        try (Statement statement = connection.createStatement()) {
+            for (Map.Entry<String, Object> pair : columnData.entrySet()) {
+                statement.executeUpdate("UPDATE " + tableName +
+                        " SET " + pair.getKey() + " = '" + pair.getValue() +
+                        "' WHERE " + keyName + " = '" + keyValue + "'");
             }
-            preparedStatement.setInt(index, id);
-            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseManagerException("Cant update , please try again (cant update Primary Key field)", e.getCause());
         }
@@ -131,8 +134,7 @@ public class PostgresManager implements DatabaseManager {
         Set<String> tables = new LinkedHashSet<>();
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM information_schema.columns " +
-                     "WHERE table_schema = 'public'  AND table_name = '" + tableName + "'"))
-        {
+                     "WHERE table_schema = 'public'  AND table_name = '" + tableName + "'")) {
             while (resultSet.next()) {
                 tables.add(resultSet.getString("column_name"));
             }
@@ -152,8 +154,7 @@ public class PostgresManager implements DatabaseManager {
         Set<String> result = new LinkedHashSet<>();
         String sql = "SELECT datname FROM pg_database WHERE datistemplate = false;";
         try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql))
-        {
+             ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 result.add(resultSet.getString(1));
             }
@@ -169,13 +170,27 @@ public class PostgresManager implements DatabaseManager {
     }
 
     @Override
+    public void delete(String tableName, String keyName, String keyValue) {
+        executeUpdateQuery("DELETE FROM " + tableName + " WHERE " + keyName + " = '" + keyValue + "'");
+    }
+
+    @Override
     public void deleteDatabase(String databaseName) {
         executeUpdateQuery("DROP DATABASE " + databaseName);
     }
 
     @Override
-    public void createTable(String tableName) {
-        executeUpdateQuery("CREATE TABLE IF NOT EXISTS " + tableName);
+    public void createTable(String tableName, String keyName, Map<String, Object> columnParameters) {
+        executeUpdateQuery("CREATE TABLE IF NOT EXISTS " + tableName + "(" + keyName + " INT NOT NULL PRIMARY KEY, " +
+                getParameters(columnParameters) + ")");
+    }
+
+    private String getParameters(Map<String, Object> columnParameters) {
+        String result = "";
+        for (Map.Entry<String, Object> pair : columnParameters.entrySet()) {
+            result += ", " + pair.getKey() + " " + pair.getValue();
+        }
+        return result;
     }
 
     @Override
@@ -189,13 +204,12 @@ public class PostgresManager implements DatabaseManager {
         return isConnected;
     }
 
-    private String getValuesFormatted(DataSet input, String format) {
-        StringBuilder values = new StringBuilder();
-        for (Object value : input.getValues()) {
-            values.append(String.format(format, value));
+    private String getValuesFormatted(Map<String, Object> columnData) {
+        String values = "";
+        for (Map.Entry<String, Object> pair : columnData.entrySet()) {
+            values += "'" + pair.getValue() + "', ";
         }
-        values.deleteCharAt(values.length() - 1);
-        return values.toString();
+        return values.substring(0, values.length() - 2);
     }
 
     @Override
@@ -203,12 +217,11 @@ public class PostgresManager implements DatabaseManager {
         return database;
     }
 
-    private String getNamesFormatted(DataSet newValue, String format) {
-        StringBuilder names = new StringBuilder();
-        for (String name : newValue.getNames()) {
-            names.append(String.format(format, name));
+    private String getNamesFormatted(Map<String, Object> columnData) {
+        String keys = "";
+        for (Map.Entry<String, Object> pair : columnData.entrySet()) {
+            keys += pair.getKey() + ", ";
         }
-        names.deleteCharAt(names.length() - 1);
-        return names.toString();
+        return keys.substring(0, keys.length() - 2);
     }
 }
