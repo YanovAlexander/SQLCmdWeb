@@ -44,47 +44,32 @@ public class MainServlet extends HttpServlet {
                 redirect("connect", resp);
             }
 
-
             if (action.equals("/menu") || action.equals("/")) {
                 jsp("menu", req, resp);
-
             } else if (action.equals("/help")) {
                 jsp("help", req, resp);
-
             } else if (action.equals("/createTable")) {
                 table(req, resp);
-
             } else if (action.equals("/table")) {
                 jsp("createTable", req, resp);
-
             } else if (action.equals("/list")) {
                 list(manager, req, resp);
-
             } else if (action.equals("/find")) {
                 jsp("tableName", req, resp);
-
             } else if (action.equals("/clear")) {
                 jsp("clear", req, resp);
-
             } else if (action.equals("/delete")) {
                 jsp("delete", req, resp);
-
             } else if (action.equals("/create")) {
                 req.setAttribute("actionURL", "createRecord");
-
                 jsp("tableName", req, resp);
-
             } else if (action.equals("/createDatabase")) {
                 jsp("createDatabase", req, resp);
-
             } else if (action.equals("/deleteDatabase")) {
                 jsp("deleteDatabase", req, resp);
-
             } else if (action.equals("/update")) {
                 req.setAttribute("actionURL", "updateRecord");
-
                 jsp("tableName", req, resp);
-
             } else {
                 jsp("error", req, resp);
             }
@@ -113,38 +98,26 @@ public class MainServlet extends HttpServlet {
         try {
             if (action.equals("/connect")) {
                 connect(req, resp);
-
             } else if (action.equals("/find")) {
                 find(manager, req, resp);
-
             } else if (action.equals("/clear")) {
                 clear(manager, req, resp);
-
             } else if (action.equals("/delete")) {
                 delete(manager, req, resp);
-
             } else if (action.equals("/createRecord")) {
                 prepare(req, manager);
-
                 jsp("create", req, resp);
-
             } else if (action.equals("/create")) {
                 create(manager, req, resp);
-
             } else if (action.equals("/createDatabase")) {
                 createDatabase(manager, req, resp);
-
             } else if (action.equals("/deleteDatabase")) {
                 deleteDatabase(manager, req, resp);
-
             } else if (action.equals("/table")) {
                 tables(manager, req, resp);
-
             } else if (action.equals("/updateRecord")) {
                 prepare(req, manager);
-
                 jsp("update", req, resp);
-
             } else if (action.equals("/update")) {
                 update(manager, req, resp);
             }
@@ -265,13 +238,14 @@ public class MainServlet extends HttpServlet {
     private void tables(DatabaseManager manager, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String tableName = req.getParameter("tableName");
         int columnCount = Integer.parseInt(req.getParameter("columnCount"));
+        columnCount = columnCount - 1;
         String keyName = req.getParameter("keyName");
 
         Map<String, Object> columnParameters = new HashMap<>();
-        for (int index = 0; index < columnCount; index++) {
-            int jindex = index + 1;
-            columnParameters.put(req.getParameter("columnName" + jindex),
-                    req.getParameter("columnType" + jindex));
+        for (int index = 1; index <= columnCount; index++) {
+//            int jindex = index + 1;
+            columnParameters.put(req.getParameter("columnName" + index),
+                    req.getParameter("columnType" + index));
         }
 
         manager.createTable(tableName, keyName, columnParameters);
@@ -306,5 +280,4 @@ public class MainServlet extends HttpServlet {
     private DatabaseManager getManager(HttpServletRequest req) {
         return (DatabaseManager) req.getSession().getAttribute("manager");
     }
-
 }

@@ -181,7 +181,7 @@ public class PostgresManager implements DatabaseManager {
 
     @Override
     public void createTable(String tableName, String keyName, Map<String, Object> columnParameters) {
-        executeUpdateQuery("CREATE TABLE IF NOT EXISTS " + tableName + "(" + keyName + " INT NOT NULL PRIMARY KEY, " +
+        executeUpdateQuery("CREATE TABLE IF NOT EXISTS " + tableName + "(" + keyName + " INT NOT NULL PRIMARY KEY" +
                 getParameters(columnParameters) + ")");
     }
 
