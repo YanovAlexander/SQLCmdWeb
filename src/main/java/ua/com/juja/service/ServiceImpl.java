@@ -1,7 +1,12 @@
 package ua.com.juja.service;
 
 import org.springframework.stereotype.Component;
+import ua.com.juja.model.DataSet;
 import ua.com.juja.model.DatabaseManager;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 
 @Component
@@ -19,6 +24,7 @@ public abstract class ServiceImpl implements Service {
             throw new ServiceException("Connection error ", e);
         }
     }
+
 
 //    @Override
 //    public void clear(DatabaseManager manager, String tableName) {

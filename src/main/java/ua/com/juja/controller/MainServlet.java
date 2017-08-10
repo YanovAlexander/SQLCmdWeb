@@ -1,4 +1,4 @@
-package ua.com.juja.controller.web;
+package ua.com.juja.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -55,6 +55,9 @@ public class MainServlet extends HttpServlet {
             } else if (action.equals("/list")) {
                 list(manager, req, resp);
             } else if (action.equals("/find")) {
+                String tableName = req.getParameter("table");
+                req.setAttribute("table", service.find(manager, tableName));
+                req.getRequestDispatcher("find.jsp").forward(req, resp);
                 jsp("tableName", req, resp);
             } else if (action.equals("/clear")) {
                 jsp("clear", req, resp);
@@ -99,6 +102,7 @@ public class MainServlet extends HttpServlet {
             if (action.equals("/connect")) {
                 connect(req, resp);
             } else if (action.equals("/find")) {
+                String tableName = req.getParameter("tableName");
                 find(manager, req, resp);
             } else if (action.equals("/clear")) {
                 clear(manager, req, resp);
@@ -243,7 +247,6 @@ public class MainServlet extends HttpServlet {
 
         Map<String, Object> columnParameters = new HashMap<>();
         for (int index = 1; index <= columnCount; index++) {
-//            int jindex = index + 1;
             columnParameters.put(req.getParameter("columnName" + index),
                     req.getParameter("columnType" + index));
         }

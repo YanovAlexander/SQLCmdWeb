@@ -20,7 +20,7 @@
 
     <servlet>
         <servlet-name>MainServlet</servlet-name>
-        <servlet-class>ua.com.juja.controller.web.MainServlet</servlet-class>
+        <servlet-class>ua.com.juja.controller.MainServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

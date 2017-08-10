@@ -17,5 +17,24 @@ public interface Service {
 
     void deletedatabase(DatabaseManager manager, String dbname);
 
+    void update();
+
+    void createDatabase();
+
+    void deleteDatabase();
+
+    void create();
+
+    void delete();
+
+    void clear();
+
+    List<List<String>> find(DatabaseManager manager, String tableName);
+
+    void list();
+
+    void tables();
+
+
 
 }

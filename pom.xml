@@ -40,12 +40,6 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
-        <!--Table format-->
-        <dependency>
-            <groupId>org.ow2.sirocco</groupId>
-            <artifactId>sirocco-text-table-formatter</artifactId>
-            <version>1.0</version>
-        </dependency>
         <!--Database-->
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -53,6 +47,12 @@
             <version>9.4-1202-jdbc4</version>
         </dependency>
         <!--Test-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
