@@ -4,9 +4,7 @@ import org.springframework.stereotype.Component;
 import ua.com.juja.model.DataSet;
 import ua.com.juja.model.DatabaseManager;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 @Component
@@ -15,32 +13,44 @@ public abstract class ServiceImpl implements Service {
     public abstract DatabaseManager getManager();
 
     @Override
-    public DatabaseManager connect(String databaseName, String userName, String password) throws ServiceException {
-        try {
-            DatabaseManager manager = getManager();
-            manager.connect(databaseName, userName, password);
-            return manager;
-        }catch (Exception e) {
-            throw new ServiceException("Connection error ", e);
-        }
+    public List<String> commandsList() {
+        return Arrays.asList("help", "list");
     }
 
+    @Override
+    public DatabaseManager connect(String databaseName, String userName, String password) {
+        DatabaseManager manager = getManager();
+        manager.connect(databaseName, userName, password);
+        return manager;
+    }
 
-//    @Override
-//    public void clear(DatabaseManager manager, String tableName) {
-//        manager.clear(tableName);
-//    }
-//
-//    @Override
-//    public void createdatabase(DatabaseManager manager, String databaseName) {
-//        manager.createDatabase(databaseName);
-//    }
-//
-//
-//    @Override
-//    public void deletedatabase(DatabaseManager manager, String dbname) {
-//        manager.deleteDatabase(dbname);
-//    }
+    @Override
+    public List<List<String>> find(DatabaseManager manager, String tableName) {
+        List<List<String>> result = new LinkedList<>();
 
+        List<String> columns = new LinkedList<>(manager.getTableColumns(tableName));
+        List<DataSet> tableData = manager.getTableData(tableName);
 
+        result.add(columns);
+        for (DataSet dataSet : tableData) {
+            List<String> row = new ArrayList<>(columns.size());
+            result.add(row);
+            for (String column : columns) {
+                Object value = dataSet.get(column);
+                if (value == null) {
+                    throw new IllegalStateException(String.format(
+                            "Can't find column %s, but was %s",
+                            column, dataSet));
+                }
+                row.add(value.toString());
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public Set<String> tables(DatabaseManager manager) {
+        return manager.getTableNames();
+    }
 }

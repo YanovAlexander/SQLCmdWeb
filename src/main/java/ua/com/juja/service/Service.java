@@ -31,10 +31,6 @@ public interface Service {
 
     List<List<String>> find(DatabaseManager manager, String tableName);
 
-    void list();
-
-    void tables();
-
-
+    Set<String> tables(DatabaseManager manager);
 
 }

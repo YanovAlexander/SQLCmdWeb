@@ -12,7 +12,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public List<String> getTableData(String tableName) {
+    public List<DataSet> getTableData(String tableName) {
         return null;
     }
 

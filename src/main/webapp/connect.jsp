@@ -9,21 +9,22 @@
     <table>
         <tr>
             <td>Database name</td>
-            <td><input  name="database"/></td>
+            <td><input type="text" name="dbname" id="database"/></td>
         </tr>
         <tr>
             <td>User name</td>
-            <td><input  name="user"/></td>
+            <td><input type="text" name="username" id="username"/></td>
         </tr>
         <tr>
             <td>Password</td>
-            <td><input type="password" name="password"/></td>
+            <td><input type="password" name="password" id="password"/></td>
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" value="connect"/></td>
+            <td><input type="submit" value="connect" id="connect"/></td>
         </tr>
     </table>
 </form>
+<%@include file="footer.jsp" %>
 </body>
 </html>

@@ -8,7 +8,7 @@ import java.util.Set;
 public interface DatabaseManager {
     Set<String> getTableNames();
 
-    List<String> getTableData(String tableName);
+    List<DataSet> getTableData(String tableName);
 
     void connect(String databaseName, String userName, String password);
 

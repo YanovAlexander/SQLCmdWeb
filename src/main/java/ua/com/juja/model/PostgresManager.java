@@ -50,57 +50,45 @@ public class PostgresManager implements DatabaseManager {
     }
 
     @Override
-    public List<String> getTableData(String tableName) {
+    public List<DataSet> getTableData(String tableName) {
+        List<DataSet> result = new ArrayList();
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(String.format(TABLE_FIND, tableName))) {
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            List<String> tableData = new ArrayList<>();
-            tableData.add(String.valueOf(metaData.getColumnCount()));
-            for (int indexColumn = 1; indexColumn <= metaData.getColumnCount(); indexColumn++) {
-                tableData.add(resultSet.getMetaData().getColumnName(indexColumn));
-            }
+           while(resultSet.next()) {
+               DataSet input = new DataSetImpl();
+               for (int i = 0; i < resultSet.getMetaData().getColumnCount(); i++) {
+                    input.put(resultSet.getMetaData().getColumnName(i + 1),
+                            resultSet.getString(i + 1));
+               }
 
-            while (resultSet.next()) {
-                for (int indexData = 1; indexData <= metaData.getColumnCount(); indexData++) {
-                    if (resultSet.getString(indexData) == null) {
-                        tableData.add("");
-                    } else {
-                        tableData.add(resultSet.getString(indexData));
-                    }
-                }
-            }
-            return tableData;
+               result.add(input);
+           }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
+        return result;
     }
 
     @Override
-    public void connect(String databaseName, String userName, String password) {
-        if (userName != null && password != null) {
-            this.userName = userName;
-            this.password = password;
-        }
-        if (!"".equals(databaseName)) {
-            isConnected = true;
-        }
-        this.database = databaseName;
+    public void connect(String database, String userName, String password) {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new DatabaseManagerException("Please add JDBC jar to project.", e);
+            throw new RuntimeException("Please add jdbc jar to project.", e);
         }
         try {
             if (connection != null) {
                 connection.close();
             }
-            String url = String.format("jdbc:postgresql://%s:%s/", HOST, PORT);
-            connection = DriverManager.getConnection(url + databaseName,
-                    userName, password);
+            connection = DriverManager.getConnection(
+                    "jdbc:postgresql://localhost:5432/" + database, userName,
+                    password);
         } catch (SQLException e) {
             connection = null;
-            throw new DatabaseManagerException(
-                    String.format("Can't get connection for model :%s user:%s", databaseName, userName), e);
+            throw new RuntimeException(
+                    String.format("Cant get connection for model:%s user:%s",
+                            database, userName),
+                    e);
         }
     }
 
