@@ -13,8 +13,9 @@
                         ${element}
                 </td>
             </c:forEach>
-        </tr>
-    </c:forEach>
+            <td><a href="record?table=${table}&record=${row}&${name}">clear</a></td>
+        </c:forEach>
+    </tr>
 </table>
 <%@include file="footer.jsp" %>
 </body>

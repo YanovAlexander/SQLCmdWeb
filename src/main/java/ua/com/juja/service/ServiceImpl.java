@@ -14,7 +14,7 @@ public abstract class ServiceImpl implements Service {
 
     @Override
     public List<String> commandsList() {
-        return Arrays.asList("help", "list");
+        return Arrays.asList("help", "tables");
     }
 
     @Override
@@ -52,5 +52,20 @@ public abstract class ServiceImpl implements Service {
     @Override
     public Set<String> tables(DatabaseManager manager) {
         return manager.getTableNames();
+    }
+
+    @Override
+    public void clear(DatabaseManager manager, String tableName) {
+        manager.clear(tableName);
+    }
+
+    @Override
+    public void deleteTable(DatabaseManager manager, String tableName) {
+        manager.deleteTable(tableName);
+    }
+
+    @Override
+    public void deleteRecord(DatabaseManager manager, String tableName, String keyName, String keyValue) {
+        manager.delete(tableName, keyName, keyValue);
     }
 }

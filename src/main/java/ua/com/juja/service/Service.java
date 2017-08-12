@@ -25,12 +25,12 @@ public interface Service {
 
     void create();
 
-    void delete();
+    void deleteTable(DatabaseManager manager, String tableName);
 
-    void clear();
 
     List<List<String>> find(DatabaseManager manager, String tableName);
 
     Set<String> tables(DatabaseManager manager);
 
+    void deleteRecord(DatabaseManager manager, String tableName, String keyName, String keyValue);
 }

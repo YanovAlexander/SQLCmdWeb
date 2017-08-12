@@ -32,7 +32,7 @@ public class MainServlet extends HttpServlet {
 
         if (action.startsWith("/connect")) {
             if (manager == null) {
-                req.getRequestDispatcher("connect.jsp").forward(req, resp);
+                goToJsp(req, resp, "connect.jsp");
             } else {
                 resp.sendRedirect(resp.encodeRedirectURL("menu"));
             }
@@ -46,23 +46,51 @@ public class MainServlet extends HttpServlet {
 
         if (action.startsWith("/menu") || action.equals("/")) {
             req.setAttribute("items", service.commandsList());
-            req.getRequestDispatcher("menu.jsp").forward(req, resp);
+            goToJsp(req, resp, "menu.jsp");
 
         } else if (action.startsWith("/help")) {
-            req.getRequestDispatcher("help.jsp").forward(req, resp);
+            goToJsp(req, resp, "help.jsp");
 
-        } else if (action.startsWith("/list")) {
-            req.setAttribute("list", service.tables(manager));
-            req.getRequestDispatcher("list.jsp").forward(req, resp);
+        } else if (action.startsWith("/tables")) {
+            req.setAttribute("tables", service.tables(manager));
+            goToJsp(req, resp, "tables.jsp");
 
         } else if (action.startsWith("/find")) {
             String tableName = req.getParameter("table");
+            req.getSession().setAttribute("table", tableName);
             req.setAttribute("table", service.find(manager, tableName));
-            req.getRequestDispatcher("find.jsp").forward(req, resp);
+            goToJsp(req, resp, "find.jsp");
+
+        } else if (action.startsWith("/clear")) {
+            String tableName = req.getParameter("table");
+            service.clear(manager, tableName);
+            goToJsp(req, resp, "success.jsp");
+
+        } else if (action.startsWith("/record")) {
+            String table = req.getParameter("table");
+            String[] splitTable = table.split("\\[");
+            String[] splitPrimaryKey = splitTable[2].split(",");
+            String keyName = splitPrimaryKey[0];
+            String record = req.getParameter("record");
+            String[] splitRecord = record.split("\\[");
+            String[] splitKeyValue = splitRecord[1].split(",");
+            String keyValue = splitKeyValue[0];
+            String tableName = (String) req.getSession().getAttribute("table");
+            service.deleteRecord(manager, tableName, keyName, keyValue);
+            goToJsp(req, resp, "success.jsp");
+
+        } else if (action.startsWith("/deleteTable")) {
+            String tableName = req.getParameter("table");
+            service.deleteTable(manager, tableName);
+            goToJsp(req, resp, "success.jsp");
 
         } else {
-            req.getRequestDispatcher("error.jsp").forward(req, resp);
+            goToJsp(req, resp, "error.jsp");
         }
+    }
+
+    private void goToJsp(HttpServletRequest req, HttpServletResponse resp, String path) throws ServletException, IOException {
+        req.getRequestDispatcher(path).forward(req, resp);
     }
 
     private String getAction(HttpServletRequest req) {
@@ -86,7 +114,7 @@ public class MainServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
                 req.setAttribute("message", e.getMessage());
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                goToJsp(req, resp, "error.jsp");
             }
         }
     }
