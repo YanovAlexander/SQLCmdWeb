@@ -65,7 +65,7 @@ public abstract class ServiceImpl implements Service {
     }
 
     @Override
-    public void deleteRecord(DatabaseManager manager, String tableName, String keyName, String keyValue) {
-        manager.delete(tableName, keyName, keyValue);
+    public void deleteRecord(DatabaseManager manager, String tableName, String keyValue) {
+        manager.delete(tableName, keyValue);
     }
 }

@@ -67,16 +67,10 @@ public class MainServlet extends HttpServlet {
             goToJsp(req, resp, "success.jsp");
 
         } else if (action.startsWith("/record")) {
-            String table = req.getParameter("table");
-            String[] splitTable = table.split("\\[");
-            String[] splitPrimaryKey = splitTable[2].split(",");
-            String keyName = splitPrimaryKey[0];
+
             String record = req.getParameter("record");
-            String[] splitRecord = record.split("\\[");
-            String[] splitKeyValue = splitRecord[1].split(",");
-            String keyValue = splitKeyValue[0];
             String tableName = (String) req.getSession().getAttribute("table");
-            service.deleteRecord(manager, tableName, keyName, keyValue);
+            service.deleteRecord(manager, tableName, record);
             goToJsp(req, resp, "success.jsp");
 
         } else if (action.startsWith("/deleteTable")) {

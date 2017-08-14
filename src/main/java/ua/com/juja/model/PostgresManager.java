@@ -28,7 +28,7 @@ public class PostgresManager implements DatabaseManager {
     private static String DATABASE_LIST = "SELECT datname FROM pg_database WHERE datistemplate = false;";
     private static String DELETE_TABLE = "DROP TABLE IF EXISTS %s";
     private static String CREATE_DATABASE = "CREATE DATABASE %s ENCODING 'UTF8'";
-    private static String DELETE_RECORD = "DELETE FROM %s WHERE %s = '%s'";
+    private static String DELETE_RECORD = "DELETE FROM %s WHERE id = '%s'";
     private static String DELETE_DATABASE = "DROP DATABASE %s";
     private static String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS %s(%s INT NOT NULL PRIMARY KEY %s)";
 
@@ -171,8 +171,8 @@ public class PostgresManager implements DatabaseManager {
     }
 
     @Override
-    public void delete(String tableName, String keyName, String keyValue) {
-        executeUpdateQuery(String.format(DELETE_RECORD, tableName, keyName, keyValue));
+    public void delete(String tableName, String keyValue) {
+        executeUpdateQuery(String.format(DELETE_RECORD, tableName, keyValue));
     }
 
     @Override

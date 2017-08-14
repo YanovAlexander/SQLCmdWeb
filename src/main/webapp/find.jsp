@@ -7,13 +7,15 @@
 <body>
 <table border="1">
     <c:forEach items="${table}" var="row">
-        <tr>
-            <c:forEach items="${row}" var="element">
-                <td>
-                        ${element}
-                </td>
-            </c:forEach>
-            <td><a href="record?table=${table}&record=${row}&${name}">clear</a></td>
+    <tr>
+        <c:forEach items="${row}" var="element">
+            <td>
+                    ${element}
+            </td>
+        </c:forEach>
+        <c:if test="${row != table[0]}">
+            <td><a href="record?record=${row[0]}">clear</a></td>
+        </c:if>
         </c:forEach>
     </tr>
 </table>

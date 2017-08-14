@@ -32,5 +32,5 @@ public interface Service {
 
     Set<String> tables(DatabaseManager manager);
 
-    void deleteRecord(DatabaseManager manager, String tableName, String keyName, String keyValue);
+    void deleteRecord(DatabaseManager manager, String tableName, String keyValue);
 }

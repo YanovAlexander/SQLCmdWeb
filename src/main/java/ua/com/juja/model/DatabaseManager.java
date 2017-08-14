@@ -26,7 +26,7 @@ public interface DatabaseManager {
 
     void deleteTable(String tableName);
 
-    void delete(String tableName, String keyName, String keyValue);
+    void delete(String tableName, String keyValue);
 
     void deleteDatabase(String databaseName);
 
