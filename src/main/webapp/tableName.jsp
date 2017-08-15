@@ -1,24 +1,31 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-  <title>sqlcmd</title>
+    <title>SQLCmd</title>
 </head>
-  <body>
-    <form action="${actionURL}" method="post">
-      <table>
+<body>
+<form action="${actionURL}" method="post">
+    <table>
         <tr>
-          <td>Table name</td>
-          <td><label>
-            <input  name="tableName"/>
-          </label></td>
+            <td>
+                Table name
+            </td>
+            <td>
+                <label>
+                    <input name="tableName"/>
+                </label>
+            </td>
         </tr>
 
         <tr>
-          <td></td>
-          <td><input type="submit" value="OK"/></td>
+            <td></td>
+            <td>
+                <input type="submit" value="OK"/>
+            </td>
         </tr>
-      </table>
-    </form>
-  </body>
+    </table>
+</form>
+<%@include file="footer.jsp" %>
+</body>
 </html>

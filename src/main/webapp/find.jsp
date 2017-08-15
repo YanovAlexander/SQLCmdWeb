@@ -23,15 +23,19 @@
             </td>
             <td>
                 <form action="updateRecord" method="get">
-                        <input type="hidden" name="record" value="${row[0]}">
-                        <input type="hidden" name="table" value="${table[0]}">
-                        <input type="submit" value="Select">
+                    <input type="hidden" name="record" value="${row[0]}">
+                    <input type="hidden" name="table" value="${table[0]}">
+                    <input type="submit" value="Select">
                 </form>
             </td>
         </c:if>
         <c:if test="${row == table[0]}">
-            <td>clear</td>
-            <td>update</td>
+            <td>
+                clear
+            </td>
+            <td>
+                update
+            </td>
         </c:if>
         </c:forEach>
     </tr>

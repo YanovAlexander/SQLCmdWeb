@@ -8,22 +8,32 @@
 <form action="createTable" method="get">
     <table>
         <tr>
-            <td>Table name</td>
-            <td><label>
-                <input name="tableName"/>
-            </label></td>
+            <td>
+                Table name
+            </td>
+            <td>
+                <label>
+                    <input name="tableName"/>
+                </label>
+            </td>
         </tr>
 
         <tr>
-            <td>Column count</td>
-            <td><label>
-                <input type="number" name="columnCount"/>
-            </label></td>
+            <td>
+                Column count
+            </td>
+            <td>
+                <label>
+                    <input type="number" name="columnCount"/>
+                </label>
+            </td>
         </tr>
 
         <tr>
             <td></td>
-            <td><input type="submit" value="OK"/></td>
+            <td>
+                <input type="submit" value="OK"/>
+            </td>
         </tr>
     </table>
     <%@include file="footer.jsp" %>

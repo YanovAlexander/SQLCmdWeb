@@ -15,6 +15,7 @@
 <b>clear</b> - clear table<br>
 <b>drop</b> - delete table<br>
 <b>deleteDatabase</b> - delete database<br>
+<br>
 <%@include file="footer.jsp" %>
 </body>
 </html>

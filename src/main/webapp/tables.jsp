@@ -8,28 +8,36 @@
 <table border="1">
     <caption>Tables</caption>
     <tr>
-        <th>Table Name</th>
-        <th colspan="2">Action</th>
+        <th>
+            Table Name
+        </th>
+        <th colspan="2">
+            Action
+        </th>
     </tr>
     <c:forEach items="${tables}" var="name">
         <tr>
-            <td><a href="find?table=${name}">${name}</a></td>
+            <td>
+                <a href="find?table=${name}">
+                        ${name}
+                </a>
+            </td>
             <td>
                 <form action="clear" method="post">
                     <input type="hidden" name="table" value=${name}>
                     <input type="submit" value="Clear">
                 </form>
-                <%--<a href="clear?table=${name}">clear</a></td>--%>
             </td>
             <td>
                 <form action="deleteTable" method="post">
                     <input type="hidden" name="table" value="${name}">
                     <input type="submit" value="Delete">
                 </form>
-                <%--<a href="deleteTable?table=${name}">delete</a></td>--%>
             </td>
         </tr>
     </c:forEach>
 </table>
+<br>
+<%@include file="footer.jsp" %>
 </body>
 </html>

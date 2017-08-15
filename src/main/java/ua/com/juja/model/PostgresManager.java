@@ -71,21 +71,30 @@ public class PostgresManager implements DatabaseManager {
 
     @Override
     public void connect(String database, String userName, String password) {
+        if (userName != null && password != null) {
+            this.userName = userName;
+            this.password = password;
+        }
+        if (!"".equals(database)) {
+            isConnected = true;
+        }
+        this.database = database;
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Please add jdbc jar to project.", e);
+            throw new DatabaseManagerException("Please add jdbc jar to project.", e);
         }
         try {
             if (connection != null) {
                 connection.close();
             }
+            String url = String.format("jdbc:postgresql://%s:%s/", HOST, PORT);
             connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/" + database, userName,
+                    url + database, userName,
                     password);
         } catch (SQLException e) {
             connection = null;
-            throw new RuntimeException(
+            throw new DatabaseManagerException(
                     String.format("Cant get connection for model:%s user:%s",
                             database, userName),
                     e);
@@ -191,9 +200,6 @@ public class PostgresManager implements DatabaseManager {
         for (int i = 0; i < columnParameters.size(); i++) {
             result +="," + columnParameters.get(i)+ " varchar(50)";
         }
-//        for (Map.Entry<String, Object> pair : columnParameters.entrySet()) {
-//            result += ", " + pair.getKey() + " " + pair.getValue();
-//        }
         return result;
     }
 

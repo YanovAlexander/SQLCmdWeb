@@ -6,6 +6,7 @@
 </head>
     <body>
         <img src="<c:url value="http://www.communityroundtable.com/wp-content/uploads/2015/04/success.jpg" />" alt="TestDisplay"/><br>
-        <tr><td><b>To menu <a href="menu">menu</a></b></td></tr>
+       <br>
+        <%@include file="footer.jsp" %>
     </body>
 </html>

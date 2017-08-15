@@ -24,19 +24,20 @@ public class MainServlet extends HttpServlet {
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
                 config.getServletContext());
     }
+    //TODO implements disconnect from db, implements error when trying delete db which you connected
 
     @Override
-            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                String action = getAction(req);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = getAction(req);
 
-                DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("db_manager");
 
-                if (action.startsWith("/connect")) {
-                    if (manager == null) {
-                        goToJsp(req, resp, "connect.jsp");
-                    } else {
-                        resp.sendRedirect(resp.encodeRedirectURL("menu"));
-                    }
+        if (action.startsWith("/connect")) {
+            if (manager == null) {
+                goToJsp(req, resp, "connect.jsp");
+            } else {
+                resp.sendRedirect(resp.encodeRedirectURL("menu"));
+            }
             return;
         }
 
@@ -56,7 +57,7 @@ public class MainServlet extends HttpServlet {
             req.setAttribute("tables", service.tables(manager));
             goToJsp(req, resp, "tables.jsp");
 
-        }else if (action.startsWith("/databaseList")) {
+        } else if (action.startsWith("/databaseList")) {
             req.setAttribute("databases", service.databases(manager));
             goToJsp(req, resp, "databaseList.jsp");
 
@@ -66,21 +67,21 @@ public class MainServlet extends HttpServlet {
             req.setAttribute("table", service.find(manager, tableName));
             goToJsp(req, resp, "find.jsp");
 
-        }else if (action.equals("/createDatabase")) {
-            goToJsp(req, resp,"createDatabase.jsp");
+        } else if (action.equals("/createDatabase")) {
+            goToJsp(req, resp, "createDatabase.jsp");
 
         } else if (action.equals("/updateRecord")) {
             prepare(req);
             goToJsp(req, resp, "update.jsp");
 
-        }else if (action.equals("/insertRecord")) {
+        } else if (action.equals("/insertRecord")) {
             prepareInsert(req);
             goToJsp(req, resp, "insert.jsp");
 
-        }else if (action.equals("/table")) {
+        } else if (action.equals("/table")) {
             goToJsp(req, resp, "createTable.jsp");
 
-        }else if (action.equals("/createTable")) {
+        } else if (action.equals("/createTable")) {
             table(req, resp);
 
         } else {
@@ -135,6 +136,7 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("message", e.getMessage());
                 goToJsp(req, resp, "error.jsp");
             }
+
         } else if (action.equals("/update")) {
             Integer columnCount = (Integer) req.getSession().getAttribute("columnCount");
             String tableName = (String) req.getSession().getAttribute("tableName");
@@ -150,7 +152,7 @@ public class MainServlet extends HttpServlet {
             service.update(databaseManager, tableName, keyName, keyValue, data);
             goToJsp(req, resp, "success.jsp");
 
-        }else if (action.equals("/insert")) {
+        } else if (action.equals("/insert")) {
             Integer columnCount = (Integer) req.getSession().getAttribute("columnCount");
             String tableName = (String) req.getSession().getAttribute("tableName");
             Map<String, Object> data = new LinkedHashMap<>();
@@ -163,17 +165,19 @@ public class MainServlet extends HttpServlet {
             service.insert(databaseManager, tableName, data);
             goToJsp(req, resp, "success.jsp");
 
-        }else if (action.equals("/table")) {
+        } else if (action.equals("/table")) {
             tables(databaseManager, req, resp);
 
-        }else if (action.equals("/createDatabase")) {
+        } else if (action.equals("/createDatabase")) {
             createDatabase(databaseManager, req, resp);
             goToJsp(req, resp, "success.jsp");
+
         } else if (action.startsWith("/deleteRecord")) {
             String record = req.getParameter("record");
             String tableName = (String) req.getSession().getAttribute("tableName");
             service.deleteRecord(databaseManager, tableName, record);
             goToJsp(req, resp, "success.jsp");
+
         } else if (action.startsWith("/clear")) {
             String tableName = req.getParameter("table");
             service.clear(databaseManager, tableName);
@@ -184,12 +188,10 @@ public class MainServlet extends HttpServlet {
             service.deleteTable(databaseManager, tableName);
             goToJsp(req, resp, "success.jsp");
 
-        }
-        else if (action.startsWith("/deleteDatabase")) {
+        } else if (action.startsWith("/deleteDatabase")) {
             String databaseName = req.getParameter("database");
             service.deleteDatabase(databaseManager, databaseName);
             goToJsp(req, resp, "success.jsp");
-
         }
     }
 

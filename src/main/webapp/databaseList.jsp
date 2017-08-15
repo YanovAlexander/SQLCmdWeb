@@ -7,7 +7,9 @@
 <body>
 
 <table border="1">
-    <caption>Databases</caption>
+    <caption>
+        Databases
+    </caption>
     <c:forEach items="${databases}" var="database">
         <tr>
             <td>
@@ -21,6 +23,7 @@
         </tr>
     </c:forEach>
 </table>
+<br>
 <%@include file="footer.jsp" %>
 </body>
 </html>
