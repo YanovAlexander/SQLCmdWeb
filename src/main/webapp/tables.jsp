@@ -14,8 +14,20 @@
     <c:forEach items="${tables}" var="name">
         <tr>
             <td><a href="find?table=${name}">${name}</a></td>
-            <td><a href="clear?table=${name}">clear</a></td>
-            <td><a href="deleteTable?table=${name}">delete</a></td>
+            <td>
+                <form action="clear" method="post">
+                    <input type="hidden" name="table" value=${name}>
+                    <input type="submit" value="Clear">
+                </form>
+                <%--<a href="clear?table=${name}">clear</a></td>--%>
+            </td>
+            <td>
+                <form action="deleteTable" method="post">
+                    <input type="hidden" name="table" value="${name}">
+                    <input type="submit" value="Delete">
+                </form>
+                <%--<a href="deleteTable?table=${name}">delete</a></td>--%>
+            </td>
         </tr>
     </c:forEach>
 </table>

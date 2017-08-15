@@ -11,8 +11,7 @@
           <input type="hidden" name="columnCount" value="${columnCount}" />
 
         <tr>
-          <td>Primary key name</td>
-          <td><input name="keyName"/></td>
+          <td>Primary key "id"</td>
         </tr>
 
         <c:forEach begin="1" end="${columnCount - 1}" varStatus="loop">
@@ -20,8 +19,6 @@
             <td>Column name${loop.count}</td>
             <td><input name="columnName${loop.count}"/></td>
 
-            <td>Column type${loop.count}</td>
-            <td><input name="columnType${loop.count}"/></td>
           </tr>
         </c:forEach>
 

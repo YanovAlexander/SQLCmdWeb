@@ -30,7 +30,7 @@ public class PostgresManager implements DatabaseManager {
     private static String CREATE_DATABASE = "CREATE DATABASE %s ENCODING 'UTF8'";
     private static String DELETE_RECORD = "DELETE FROM %s WHERE id = '%s'";
     private static String DELETE_DATABASE = "DROP DATABASE %s";
-    private static String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS %s(%s INT NOT NULL PRIMARY KEY %s)";
+    private static String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS %s(id INT NOT NULL PRIMARY KEY %s)";
 
 
 
@@ -181,16 +181,19 @@ public class PostgresManager implements DatabaseManager {
     }
 
     @Override
-    public void createTable(String tableName, String keyName, Map<String, Object> columnParameters) {
+    public void createTable(String tableName, List<String> columnParameters) {
         executeUpdateQuery(String.format(CREATE_TABLE
-                ,tableName, keyName, getParameters(columnParameters) ));
+                ,tableName, getParameters(columnParameters) ));
     }
 
-    private String getParameters(Map<String, Object> columnParameters) {
+    private String getParameters(List<String> columnParameters) {
         String result = "";
-        for (Map.Entry<String, Object> pair : columnParameters.entrySet()) {
-            result += ", " + pair.getKey() + " " + pair.getValue();
+        for (int i = 0; i < columnParameters.size(); i++) {
+            result +="," + columnParameters.get(i)+ " varchar(50)";
         }
+//        for (Map.Entry<String, Object> pair : columnParameters.entrySet()) {
+//            result += ", " + pair.getKey() + " " + pair.getValue();
+//        }
         return result;
     }
 

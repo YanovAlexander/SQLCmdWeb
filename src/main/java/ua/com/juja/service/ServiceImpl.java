@@ -14,7 +14,7 @@ public abstract class ServiceImpl implements Service {
 
     @Override
     public List<String> commandsList() {
-        return Arrays.asList("help", "tables");
+        return Arrays.asList("help", "tables", "table", "createDatabase", "databaseList");
     }
 
     @Override
@@ -67,5 +67,35 @@ public abstract class ServiceImpl implements Service {
     @Override
     public void deleteRecord(DatabaseManager manager, String tableName, String keyValue) {
         manager.delete(tableName, keyValue);
+    }
+
+    @Override
+    public void update(DatabaseManager manager, String tableName, String keyName, String keyValue, Map<String, Object> data) {
+        manager.update(tableName, keyName, keyValue, data);
+    }
+
+    @Override
+    public void createTable(DatabaseManager manager, String tableName, List<String> columnParameters) {
+        manager.createTable(tableName, columnParameters);
+    }
+
+    @Override
+    public void createDatabase(DatabaseManager manager, String databaseName) {
+        manager.createDatabase(databaseName);
+    }
+
+    @Override
+    public Set<String> databases(DatabaseManager manager) {
+        return manager.databasesList();
+    }
+
+    @Override
+    public void deleteDatabase(DatabaseManager manager, String databaseName) {
+        manager.deleteDatabase(databaseName);
+    }
+
+    @Override
+    public void insert(DatabaseManager databaseManager, String tableName, Map<String, Object> data) {
+        databaseManager.create(tableName, data);
     }
 }

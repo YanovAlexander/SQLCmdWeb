@@ -3,6 +3,7 @@ package ua.com.juja.service;
 import ua.com.juja.model.DatabaseManager;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface Service {
@@ -13,17 +14,11 @@ public interface Service {
 
     void clear(DatabaseManager manager, String tableName);
 
-    void createdatabase(DatabaseManager manager, String databaseName);
+    void createDatabase(DatabaseManager manager, String databaseName);
 
-    void deletedatabase(DatabaseManager manager, String dbname);
+    void deleteDatabase(DatabaseManager manager, String databaseName);
 
-    void update();
-
-    void createDatabase();
-
-    void deleteDatabase();
-
-    void create();
+    void update(DatabaseManager manager, String tableName, String  keyName, String keyValue, Map<String, Object> data);
 
     void deleteTable(DatabaseManager manager, String tableName);
 
@@ -33,4 +28,11 @@ public interface Service {
     Set<String> tables(DatabaseManager manager);
 
     void deleteRecord(DatabaseManager manager, String tableName, String keyValue);
+
+    void createTable(DatabaseManager manager, String tableName, List<String> columnParameters);
+
+    Set<String> databases(DatabaseManager manager);
+
+
+    void insert(DatabaseManager databaseManager, String tableName, Map<String, Object> data);
 }

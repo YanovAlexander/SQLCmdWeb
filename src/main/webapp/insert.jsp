@@ -5,27 +5,21 @@
     <title>sqlcmd</title>
 </head>
 <body>
-<form action="create" method="post">
+<form action="insert" method="post">
     <table>
         <input type="hidden" name="columnCount" value="${columnCount}"/>
         <input type="hidden" name="tableName" value="${tableName}"/>
         <tr>
             <c:forEach begin="1" end="${columnCount}" varStatus="loop">
-        <tr>
-            <td>Column name ${loop.count}</td>
-            <td><label>
-                <input name="columnName${loop.count}"/>
-            </label></td>
-
             <td>Column value ${loop.count}</td>
             <td><label>
-                <input name="columnValue${loop.count}"/>
+                <input name="columnValue${loop.count - 1}"/>
             </label></td>
         </tr>
         </c:forEach>
         <tr>
             <td></td>
-            <td><input type="submit" value="create"/></td>
+            <td><input type="submit" value="insert"/></td>
         </tr>
     </table>
 </form>

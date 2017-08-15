@@ -32,7 +32,7 @@ public interface DatabaseManager {
 
     void disconnectFromDB();
 
-    void createTable(String tableName, String keyName, Map<String, Object> columnParameters);
+    void createTable(String tableName,List<String> columnParameters);
 
     String getDatabaseName();
 
