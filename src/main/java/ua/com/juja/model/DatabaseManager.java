@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 public interface DatabaseManager {
+    DatabaseManager NULL = new NullDatabaseManager();
+
     Set<String> getTableNames();
 
     List<DataSet> getTableData(String tableName);

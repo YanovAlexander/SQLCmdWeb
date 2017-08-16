@@ -2,104 +2,84 @@ package ua.com.juja.model;
 
 import java.util.*;
 
-public class InMemoryDatabaseManager implements DatabaseManager {
-
-    private Map<String, List<DataSet>> tables = new LinkedHashMap<>();
-
+public class NullDatabaseManager implements DatabaseManager {
     @Override
     public Set<String> getTableNames() {
-        return tables.keySet();
+        return new HashSet<>();
     }
 
     @Override
     public List<DataSet> getTableData(String tableName) {
-        return null;
+        return new LinkedList<>();
     }
 
     @Override
-    public void connect(String database, String userName, String password) {
-        // do nothing
+    public void connect(String databaseName, String userName, String password) {
+        //NOP
     }
 
     @Override
     public void clear(String tableName) {
-        get(tableName).clear();
+        //NOP
     }
 
     @Override
     public void create(String tableName, Map<String, Object> columnData) {
-        //do nothing
+        //NOP
     }
-
-    private List<DataSet> getWithDataSet(String tableName) {
-        if (!tables.containsKey(tableName)) {
-            tables.put(tableName, new LinkedList<DataSet>());
-        }
-        return tables.get(tableName);
-    }
-
 
     @Override
     public void update(String tableName, String keyName, String keyValue, Map<String, Object> columnData) {
-
+        //NOP
     }
-
-    private List<DataSet> get(String tableName) {
-        if (!tables.containsKey(tableName)) {
-            tables.put(tableName, new LinkedList<>());
-        }
-        return tables.get(tableName);
-    }
-
-
 
     @Override
     public Set<String> getTableColumns(String tableName) {
-        return new LinkedHashSet<>(Arrays.asList("name", "password", "id"));
+        return new HashSet<>();
     }
 
     @Override
     public void createDatabase(String databaseName) {
-
+        //NOP
     }
 
     @Override
     public Set<String> databasesList() {
-        return null;
+        return new HashSet<>();
     }
 
     @Override
     public void deleteTable(String tableName) {
-
+        //NOP
     }
 
     @Override
     public void delete(String tableName, String keyValue) {
-
+        //NOP
     }
 
     @Override
     public void deleteDatabase(String databaseName) {
-
+        //NOP
     }
 
     @Override
     public void disconnectFromDB() {
-
+        //NOP
     }
 
     @Override
     public void createTable(String tableName, List<String> columnParameters) {
-
+        //NOP
     }
 
     @Override
     public String getDatabaseName() {
-        return null;
+        return "";
     }
 
     @Override
     public boolean isConnected() {
-        return true;
+        return false;
     }
 }

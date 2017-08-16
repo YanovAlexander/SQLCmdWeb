@@ -10,11 +10,11 @@ import java.util.*;
 @Component
 public abstract class ServiceImpl implements Service {
 
-    public abstract DatabaseManager getManager();
+    public abstract  DatabaseManager getManager();
 
     @Override
     public List<String> commandsList() {
-        return Arrays.asList("help", "tables", "table", "createDatabase", "databaseList");
+        return Arrays.asList("help", "tables", "table", "createDatabase", "databases");
     }
 
     @Override
