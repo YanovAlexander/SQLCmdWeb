@@ -1,5 +1,6 @@
-package ua.com.juja.controller.web;
+package ua.com.juja.controller.actions;
 
+import ua.com.juja.controller.AbstractAction;
 import ua.com.juja.service.Service;
 
 import javax.servlet.ServletException;
@@ -27,7 +28,7 @@ public class UpdateRecordAction extends AbstractAction {
         for (int i = 1; i < columnCountArray.length; i++) {
             req.getSession().setAttribute("columnName" + i, columnCountArray[i]);
         }
-        goToJsp(req, resp, "updateRecord.jsp");
+        goToJsp(req, resp, "WEB-INF/view/updateRecord.jsp");
     }
 
     @Override
@@ -49,6 +50,6 @@ public class UpdateRecordAction extends AbstractAction {
             String keyValue = (String) req.getSession().getAttribute("keyValue");
 
             service.update(getManagerDB(req, resp), tableName, keyName, keyValue, data);
-            goToJsp(req, resp, "success.jsp");
+            goToJsp(req, resp, "WEB-INF/view/success.jsp");
     }
 }

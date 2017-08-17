@@ -1,5 +1,6 @@
-package ua.com.juja.controller.web;
+package ua.com.juja.controller.actions;
 
+import ua.com.juja.controller.AbstractAction;
 import ua.com.juja.service.Service;
 
 import javax.servlet.ServletException;
@@ -17,7 +18,7 @@ public class TableAction extends AbstractAction {
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        goToJsp(req, resp, "createTable.jsp");
+        goToJsp(req, resp, "WEB-INF/view/createTable.jsp");
     }
 
     @Override
@@ -35,6 +36,6 @@ public class TableAction extends AbstractAction {
             columnParameters.add(req.getParameter("columnName" + i));
         }
         service.createTable(getManagerDB(req, resp), tableName, columnParameters);
-        goToJsp(req, resp, "success.jsp");
+        goToJsp(req, resp, "WEB-INF/view/success.jsp");
     }
 }

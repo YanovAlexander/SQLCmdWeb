@@ -1,5 +1,6 @@
-package ua.com.juja.controller.web;
+package ua.com.juja.controller.actions;
 
+import ua.com.juja.controller.AbstractAction;
 import ua.com.juja.service.Service;
 
 import javax.servlet.ServletException;
@@ -9,7 +10,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class InsertRecordAction extends AbstractAction{
+public class InsertRecordAction extends AbstractAction {
 
     public InsertRecordAction(Service service) {
         super(service);
@@ -24,6 +25,7 @@ public class InsertRecordAction extends AbstractAction{
         for (int i = 0; i < columnCountArray.length; i++) {
             req.getSession().setAttribute("columnName" + i, columnCountArray[i]);
         }
+        goToJsp(req, resp, "WEB-INF/view/insertRecord.jsp");
     }
 
     @Override
@@ -43,6 +45,6 @@ public class InsertRecordAction extends AbstractAction{
             }
 
             service.insert(getManagerDB(req, resp), tableName, data);
-            goToJsp(req, resp, "success.jsp");
+            goToJsp(req, resp, "WEB-INF/view/success.jsp");
     }
 }

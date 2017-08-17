@@ -1,5 +1,6 @@
-package ua.com.juja.controller.web;
+package ua.com.juja.controller.actions;
 
+import ua.com.juja.controller.AbstractAction;
 import ua.com.juja.model.DatabaseManager;
 import ua.com.juja.service.Service;
 
@@ -15,7 +16,7 @@ public class ConnectAction extends AbstractAction {
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        goToJsp(req, resp, "connect.jsp");
+        goToJsp(req, resp, "WEB-INF/view/connect.jsp");
     }
 
     @Override
@@ -36,7 +37,7 @@ public class ConnectAction extends AbstractAction {
             resp.sendRedirect(resp.encodeRedirectURL("menu"));
 
         } catch (Exception e) {
-           forwardToError(req, resp, e);
+            forwardToError(req, resp, e);
         }
     }
 }

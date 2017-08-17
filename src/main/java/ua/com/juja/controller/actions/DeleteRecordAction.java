@@ -1,5 +1,6 @@
-package ua.com.juja.controller.web;
+package ua.com.juja.controller.actions;
 
+import ua.com.juja.controller.AbstractAction;
 import ua.com.juja.service.Service;
 
 import javax.servlet.ServletException;
@@ -22,6 +23,6 @@ public class DeleteRecordAction extends AbstractAction {
         String record = req.getParameter("record");
             String tableName = (String) req.getSession().getAttribute("tableName");
             service.deleteRecord(getManagerDB(req, resp), tableName, record);
-            goToJsp(req, resp, "success.jsp");
+            goToJsp(req, resp, "WEB-INF/view/success.jsp");
     }
 }

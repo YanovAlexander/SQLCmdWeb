@@ -1,5 +1,6 @@
-package ua.com.juja.controller.web;
+package ua.com.juja.controller.actions;
 
+import ua.com.juja.controller.AbstractAction;
 import ua.com.juja.service.Service;
 
 import javax.servlet.ServletException;
@@ -20,7 +21,7 @@ public class CreateTableAction extends AbstractAction {
         req.setAttribute("tableName", tableName);
         req.setAttribute("columnCount", columnCount);
 
-        goToJsp(req, resp, "table.jsp");
+        goToJsp(req, resp, "WEB-INF/view/table.jsp");
     }
 
     @Override

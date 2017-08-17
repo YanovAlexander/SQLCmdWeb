@@ -1,5 +1,6 @@
-package ua.com.juja.controller.web;
+package ua.com.juja.controller.actions;
 
+import ua.com.juja.controller.AbstractAction;
 import ua.com.juja.service.Service;
 
 import javax.servlet.ServletException;
@@ -14,7 +15,7 @@ public class CreateDatabaseAction extends AbstractAction {
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        goToJsp(req, resp, "createDatabase.jsp");
+        goToJsp(req, resp, "WEB-INF/view/createDatabase.jsp");
     }
 
     @Override
@@ -26,6 +27,6 @@ public class CreateDatabaseAction extends AbstractAction {
     public void post(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String database = req.getParameter("databaseName");
         service.createDatabase(getManagerDB(req, resp), database);
-        goToJsp(req, resp, "success.jsp");
+        goToJsp(req, resp, "WEB-INF/view/success.jsp");
     }
 }

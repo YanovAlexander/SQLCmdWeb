@@ -1,4 +1,4 @@
-package ua.com.juja.controller.web;
+package ua.com.juja.controller;
 
 import ua.com.juja.model.DatabaseManager;
 import ua.com.juja.service.Service;
@@ -45,7 +45,7 @@ public abstract class AbstractAction implements Action {
     protected void forwardToError(ServletRequest req, ServletResponse resp, Exception e) {
         req.setAttribute("message", e.getMessage());
         try {
-            req.getRequestDispatcher("error.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/view/error.jsp").forward(req, resp);
         } catch (ServletException | IOException e1) {
             e.printStackTrace();
         }

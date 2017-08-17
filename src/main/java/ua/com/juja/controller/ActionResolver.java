@@ -1,9 +1,11 @@
-package ua.com.juja.controller.web;
+package ua.com.juja.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ua.com.juja.controller.actions.*;
 import ua.com.juja.service.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,11 +14,16 @@ import java.util.List;
 public class ActionResolver {
 
     @Autowired
-    private Service service;
+    private Service service ;
 
     private List<Action> actions;
 
     public ActionResolver() {
+
+    }
+
+    @PostConstruct
+    void init() {
         actions = new LinkedList<>();
         actions.addAll(Arrays.asList(
                 new ConnectAction(service),
