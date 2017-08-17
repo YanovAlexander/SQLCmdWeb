@@ -11,7 +11,7 @@
     <context:component-scan base-package="ua.com.juja"/>
 
     <bean id="service" class="ua.com.juja.service.ServiceImpl">
-    <lookup-method name="getManager" bean="postgresManager"/>
+        <lookup-method name="getManager" bean="postgresManager"/>
     </bean>
 
     <!--<bean id="postgresManager" class="ua.com.juja.model.PostgresManager" scope="prototype"/>-->
