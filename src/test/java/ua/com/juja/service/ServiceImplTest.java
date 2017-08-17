@@ -10,30 +10,22 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ua.com.juja.model.DataSet;
-import ua.com.juja.model.DataSetImpl;
 import ua.com.juja.model.DatabaseManager;
+import ua.com.juja.model.InMemoryDatabaseManager;
 
 import java.util.*;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:test-application-context.xml"})
 public class ServiceImplTest {
 
-    @InjectMocks
-    private Service service;
-
-    @Mock
-    private DatabaseManager manager;
-
-    @Before
-    public void initMocks() {
-        MockitoAnnotations.initMocks(this);
-    }
+    @Autowired
+    private Service service ;
 
     @Test
     public void test() throws ServiceException {
+        DatabaseManager manager = service.connect("databse", "user", "password");
         // given
         Map<String, Object> input = new LinkedHashMap<>();
         input.put("id", 13);
