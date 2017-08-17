@@ -13,7 +13,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
 
     @Override
     public List<DataSet> getTableData(String tableName) {
-        return null;
+        return get(tableName);
     }
 
     @Override
@@ -28,7 +28,11 @@ public class InMemoryDatabaseManager implements DatabaseManager {
 
     @Override
     public void create(String tableName, Map<String, Object> columnData) {
-        //do nothing
+      DataSet data = new DataSetImpl();
+        for (Map.Entry<String, Object> pair : columnData.entrySet()) {
+            data.put(pair.getKey(), pair.getValue());
+        }
+        get(tableName).add(data);
     }
 
     private List<DataSet> getWithDataSet(String tableName) {
