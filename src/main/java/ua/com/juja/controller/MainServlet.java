@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class MainServlet extends HttpServlet {
-//
+//TODO move to MainController with using Spring MVC. And after delete MainServlet and Actions.
 //    @Autowired
 //    private ActionResolver actions;
 //

@@ -23,7 +23,7 @@
             </td>
             <td>
                 <form action="updateRecord" method="get">
-                    <input type="hidden" name="record" value="${row[0]}">
+                    <input type="hidden" name="record"  value="${row[0]} ">
                     <input type="hidden" name="table" value="${table[0]}">
                     <input type="submit" value="Select">
                 </form>
