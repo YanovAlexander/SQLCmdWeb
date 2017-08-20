@@ -39,17 +39,17 @@ public class UpdateRecordAction extends AbstractAction {
     @Override
     public void post(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Integer columnCount = (Integer) req.getSession().getAttribute("columnCount");
-            String tableName = (String) req.getSession().getAttribute("tableName");
-            Map<String, Object> data = new HashMap<>();
+        String tableName = (String) req.getSession().getAttribute("tableName");
+        Map<String, Object> data = new HashMap<>();
 
-            for (int index = 1; index < columnCount; index++) {
-                data.put((String) req.getSession().getAttribute("columnName" + index),
-                        req.getParameter("columnValue" + index));
-            }
-            String keyName = (String) req.getSession().getAttribute("keyName");
-            String keyValue = (String) req.getSession().getAttribute("keyValue");
+        for (int index = 1; index < columnCount; index++) {
+            data.put((String) req.getSession().getAttribute("columnName" + index),
+                    req.getParameter("columnValue" + index));
+        }
+        String keyName = (String) req.getSession().getAttribute("keyName");
+        String keyValue = (String) req.getSession().getAttribute("keyValue");
 
-            service.update(getManagerDB(req, resp), tableName, keyName, keyValue, data);
-            goToJsp(req, resp, "WEB-INF/view/success.jsp");
+        service.update(getManagerDB(req, resp), tableName, keyName, keyValue, data);
+        goToJsp(req, resp, "WEB-INF/view/success.jsp");
     }
 }
