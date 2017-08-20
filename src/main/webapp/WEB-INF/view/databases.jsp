@@ -10,6 +10,14 @@
     <caption>
         Databases
     </caption>
+    <tr>
+        <th>
+            Database Name
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
     <c:forEach items="${databases}" var="database">
         <tr>
             <td>

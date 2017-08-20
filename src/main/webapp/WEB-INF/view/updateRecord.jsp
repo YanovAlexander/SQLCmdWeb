@@ -9,6 +9,8 @@
     <table>
         <input type="hidden" name="columnCount" value="${columnCount}"/>
         <input type="hidden" name="tableName" value="${tableName}"/>
+        <input type="hidden" name="keyName" value="${keyName}"/>
+        <input type="hidden" name="keyValue" value="${keyValue}"/>
 
         <c:forEach begin="1" end="${columnCount - 1}" varStatus="loop">
             <tr>

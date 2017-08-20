@@ -23,14 +23,14 @@
                 </a>
             </td>
             <td>
-                <form action="clear" method="post">
-                    <input type="hidden" name="table" value=${name}>
+                <form action="clearTable" method="post">
+                    <input type="hidden" name="tableName" value=${name}>
                     <input type="submit" value="Clear">
                 </form>
             </td>
             <td>
                 <form action="deleteTable" method="post">
-                    <input type="hidden" name="table" value="${name}">
+                    <input type="hidden" name="tableName" value="${name}">
                     <input type="submit" value="Delete">
                 </form>
             </td>
