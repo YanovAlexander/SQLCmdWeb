@@ -23,7 +23,6 @@ public class MainController {
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
     public String menu(HttpServletRequest req) {
-        req.setAttribute("items", service.commandsList());
         return "menu";
     }
 

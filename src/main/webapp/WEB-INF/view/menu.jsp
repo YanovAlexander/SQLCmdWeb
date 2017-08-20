@@ -5,9 +5,15 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<c:forEach items="${items}" var="item">
-    <a href="${item}">${item}</a>
-    <br>
-</c:forEach>
+<a href="/sqlcmd/help">Help</a>
+<br>
+<a href="/sqlcmd/tables">Tables</a>
+<br>
+<a href="/sqlcmd/table">Create table</a>
+<br>
+<a href="/sqlcmd/databases">Databases</a>
+<br>
+<a href="/sqlcmd/createDatabase">Create database</a>
+<br>
 </body>
 </html>

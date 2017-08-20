@@ -8,8 +8,6 @@ import java.util.Set;
 
 public interface Service {
 
-    List<String> commandsList();
-
     DatabaseManager connect(String databaseName, String userName, String password) throws ServiceException;
 
     void clear(DatabaseManager manager, String tableName);

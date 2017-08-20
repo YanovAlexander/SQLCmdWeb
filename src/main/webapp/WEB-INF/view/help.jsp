@@ -4,17 +4,23 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<b>connect</b> - connect to database<br>
-<b>createDatabase</b> - create database<br>
-<b>table</b> - create table<br>
-<b>list</b> - show all tables<br>
-<b>find</b> - show table content<br>
-<b>create</b> - create record<br>
-<b>update</b> - update record<br>
-<b>delete</b> - delete record<br>
-<b>clear</b> - clear table<br>
-<b>drop</b> - delete table<br>
-<b>deleteDatabase</b> - delete database<br>
+<p style="font-size: 15px">Main menu commands:</p>
+<b>Connect</b> - connect to database<br>
+<b>Tables</b> - show all tables<br>
+<b>Create table</b> - create table<br>
+<b>Databases</b> - show all databases<br>
+<b>Create database</b> - create database<br>
+
+<p style="font-size: 15px">Tables commands:</p>
+<b>Clear</b> - clear current table<br>
+<b>Delete</b> - delete current table<br>
+
+<p style="font-size: 15px">Commands of each table:</p>
+<b>Clear</b> - delete current record<br>
+<b>Update</b> - update current record<br>
+
+<p style="font-size: 15px">Databases  commands:</p>
+<b>Delete</b> - delete database<br>
 <br>
 <%@include file="footer.jsp" %>
 </body>

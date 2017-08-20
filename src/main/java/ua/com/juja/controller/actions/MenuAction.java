@@ -16,7 +16,6 @@ public class MenuAction extends AbstractAction {
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            req.setAttribute("items", service.commandsList());
             goToJsp(req, resp, "WEB-INF/view/menu.jsp");
     }
 

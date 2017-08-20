@@ -13,11 +13,6 @@ public abstract class ServiceImpl implements Service {
     public abstract  DatabaseManager getManager();
 
     @Override
-    public List<String> commandsList() {
-        return Arrays.asList("help", "tables", "table", "createDatabase", "databases");
-    }
-
-    @Override
     public DatabaseManager connect(String databaseName, String userName, String password) {
         DatabaseManager manager = getManager();
         manager.connect(databaseName, userName, password);
