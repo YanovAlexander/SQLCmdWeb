@@ -5,37 +5,36 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<form action="createTable" method="get">
+<form action="createTable" method="post">
     <table>
-        <tr>
-            <td>
-                Table name
-            </td>
-            <td>
-                <label>
-                    <input name="tableName"/>
-                </label>
-            </td>
-        </tr>
+        <input type="hidden" name="tableName" value="${tableName}"/>
+        <input type="hidden" name="columnCount" value="${columnCount}"/>
 
         <tr>
             <td>
-                Column count
-            </td>
-            <td>
-                <label>
-                    <input type="number" name="columnCount"/>
-                </label>
+                Primary key "id"
             </td>
         </tr>
+
+        <c:forEach begin="1" end="${columnCount - 1}" varStatus="loop">
+            <tr>
+                <td>
+                    Column name${loop.count}
+                </td>
+                <td>
+                    <input name="columnName${loop.count}"/>
+                </td>
+            </tr>
+        </c:forEach>
 
         <tr>
             <td></td>
             <td>
-                <input type="submit" value="OK"/>
+                <input type="submit" value="create"/>
             </td>
         </tr>
     </table>
-    <%@include file="footer.jsp" %>
+</form>
+<%@include file="footer.jsp" %>
 </body>
 </html>

@@ -9,9 +9,7 @@ import ua.com.juja.service.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -93,14 +91,14 @@ public class MainController {
     }
 
     @RequestMapping(value = "/clearTable", method = RequestMethod.POST)
-    public String clearTable(@RequestParam("tableName") String tableName,
+    public String clearingTable(@RequestParam("tableName") String tableName,
                              HttpSession session) {
         service.clear(getManager(session), tableName);
         return "success";
     }
 
     @RequestMapping(value = "/deleteTable", method = RequestMethod.POST)
-    public String deleteTable(@RequestParam("tableName") String tableName,
+    public String deletingTable(@RequestParam("tableName") String tableName,
                               HttpSession session) {
         service.deleteTable(getManager(session), tableName);
         return "success";
@@ -112,6 +110,30 @@ public class MainController {
             session.setAttribute("from-page", "/table");
             return "redirect:/connect";
         }
+        return "createTableForm";
+    }
+
+    @RequestMapping(value = "/createTable", method = RequestMethod.POST)
+    public String creatingTable(@RequestParam("columnCount") Integer columnCount,
+                              @RequestParam("tableName") String tableName,
+                              HttpSession session,
+                              HttpServletRequest req) {
+
+        List<String> columnParameters = new ArrayList<>();
+        for (int i = 1; i < columnCount; i++) {
+            columnParameters.add(req.getParameter("columnName" + i));
+        }
+        service.createTable(getManager(session), tableName, columnParameters);
+        return "success";
+    }
+
+
+    @RequestMapping(value = "/createTableForm", method = RequestMethod.GET)
+    public String createTableForm(@RequestParam("columnCount") Integer columnCount,
+                                  @RequestParam("tableName") String tableName,
+                                  Model model) {
+        model.addAttribute("tableName", tableName);
+        model.addAttribute("columnCount", columnCount);
         return "createTable";
     }
 
@@ -179,15 +201,13 @@ public class MainController {
         return "success";
     }
 
-
     @RequestMapping(value = "/deleteRecord", method = RequestMethod.POST)
-    public String updateRecord(@RequestParam("record") String keyValue,
+    public String deletingRecord(@RequestParam("record") String keyValue,
                                @RequestParam("tableName") String tableName,
                                HttpSession session) {
         service.deleteRecord(getManager(session), tableName, keyValue);
         return "success";
     }
-
 
     @RequestMapping(value = "/databases", method = RequestMethod.GET)
     public String databases(Model model, HttpSession session) {
@@ -210,13 +230,19 @@ public class MainController {
         return "createDatabase";
     }
 
+  @RequestMapping(value = "/createDatabase", method = RequestMethod.POST)
+    public String creatingDatabase(@RequestParam("databaseName") String databaseName,
+            HttpSession session) {
+        service.createDatabase(getManager(session), databaseName);
+        return "success";
+    }
+
     @RequestMapping(value = "/deleteDatabase", method = RequestMethod.POST)
-    public String deleteDatabase(@RequestParam("database") String databaseName,
-                               HttpSession session) {
+    public String deletingDatabase(@RequestParam("database") String databaseName,
+                                 HttpSession session) {
         service.deleteDatabase(getManager(session), databaseName);
         return "success";
     }
-    //TODO create Table, create Database, try delete database
 
     private DatabaseManager getManager(HttpSession session) {
         return (DatabaseManager) session.getAttribute("db_manager");

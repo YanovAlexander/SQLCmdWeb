@@ -5,7 +5,7 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<form action="${actionURL}" method="post">
+<form action="createTableForm">
     <table>
         <tr>
             <td>
@@ -19,13 +19,23 @@
         </tr>
 
         <tr>
+            <td>
+                Column count
+            </td>
+            <td>
+                <label>
+                    <input type="number" name="columnCount"/>
+                </label>
+            </td>
+        </tr>
+
+        <tr>
             <td></td>
             <td>
                 <input type="submit" value="OK"/>
             </td>
         </tr>
     </table>
-</form>
-<%@include file="footer.jsp" %>
+    <%@include file="footer.jsp" %>
 </body>
 </html>
