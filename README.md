@@ -48,7 +48,7 @@ Need to be installed PostgreSQL, Apache Tomcat®. This is a Maven based project.
 
 +  update current record
 
-***Commands of each table:***
+***Databases commands:***
 
 **Delete** 
 

@@ -9,6 +9,9 @@ import ua.com.juja.service.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Controller
 public class MainController {
@@ -60,12 +63,12 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/find",params = { "table" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/find", params = {"table"}, method = RequestMethod.GET)
     public String tables(Model model,
                          @RequestParam(value = "table") String table,
                          HttpSession session) {
         DatabaseManager manager = getManager(session);
-
+        model.addAttribute("tableName", table);//todo use model for send data to jsp, also on jsp use hidden fields to store some data
         if (manager == null) {
             session.setAttribute("from-page", "/find?table=" + table);
             return "redirect:/connect";
@@ -89,6 +92,20 @@ public class MainController {
         return "tables";
     }
 
+    @RequestMapping(value = "/clearTable", method = RequestMethod.POST)
+    public String clearTable(@RequestParam("tableName") String tableName,
+                             HttpSession session) {
+        service.clear(getManager(session), tableName);
+        return "success";
+    }
+
+    @RequestMapping(value = "/deleteTable", method = RequestMethod.POST)
+    public String deleteTable(@RequestParam("tableName") String tableName,
+                              HttpSession session) {
+        service.deleteTable(getManager(session), tableName);
+        return "success";
+    }
+
     @RequestMapping(value = "/table", method = RequestMethod.GET)
     public String createTable(HttpSession session) {
         if (getManager(session) == null) {
@@ -99,20 +116,76 @@ public class MainController {
     }
 
     @RequestMapping(value = "/updateRecord", method = RequestMethod.GET)
-    public String updateRecord(HttpServletRequest req, HttpSession session, Model model) {
-        String columnNames = req.getParameter("table");
+    public String updateRecord(@RequestParam("table") String columnNames,
+                               @RequestParam("record") String keyValue,
+                               @RequestParam("tableName") String tableName,
+                               Model model, HttpSession session) {
         String substring = columnNames.substring(1, columnNames.length() - 1);
         String[] columnCountArray = substring.split(",");
         String keyName = columnCountArray[0];
-        String keyValue = req.getParameter("record");
-        req.getSession().setAttribute("keyName", keyName);
-        req.getSession().setAttribute("keyValue", keyValue);
-        req.getSession().setAttribute("columnCount", columnCountArray.length);
+        model.addAttribute("keyName", keyName);
+        model.addAttribute("tableName", tableName);
+        model.addAttribute("keyValue", keyValue);
+        model.addAttribute("columnCount", columnCountArray.length);
         for (int i = 1; i < columnCountArray.length; i++) {
-            req.getSession().setAttribute("columnName" + i, columnCountArray[i]);
+            session.setAttribute("columnName" + i, columnCountArray[i]);
         }
 
-        return "createTable";
+        return "updateRecord";
+    }
+
+    @RequestMapping(value = "/updateRecord", method = RequestMethod.POST)
+    public String updatingRecord(@RequestParam("columnCount") Integer columnCount,
+                                 @RequestParam("tableName") String tableName,
+                                 @RequestParam("keyName") String keyName,
+                                 @RequestParam("keyValue") String keyValue,
+                                 HttpSession session,
+                                 HttpServletRequest req) {
+        Map<String, Object> data = new HashMap<>();
+
+        for (int index = 1; index < columnCount; index++) {
+            data.put((String) session.getAttribute("columnName" + index),
+                    req.getParameter("columnValue" + index));
+        }
+        service.update(getManager(session), tableName, keyName, keyValue, data);
+        return "success";
+    }
+
+    @RequestMapping(value = "/insertRecord", method = RequestMethod.GET)
+    public String insertRecord(@RequestParam("table") String columnNames,
+                               @RequestParam("tableName") String tableName,
+                               Model model, HttpSession session) {
+        model.addAttribute("tableName", tableName);
+        String substring = columnNames.substring(1, columnNames.length() - 1);
+        String[] columnCountArray = substring.split(",");
+        model.addAttribute("columnCount", columnCountArray.length);
+        for (int i = 0; i < columnCountArray.length; i++) {
+            session.setAttribute("columnName" + i, columnCountArray[i]);
+        }
+        return "insertRecord";
+    }
+
+    @RequestMapping(value = "/insertRecord", method = RequestMethod.POST)
+    public String insertingRecord(@RequestParam("columnCount") Integer columnCount,
+                                  @RequestParam("tableName") String tableName,
+                                  HttpSession session,
+                                  HttpServletRequest req) {
+        Map<String, Object> data = new LinkedHashMap<>();
+        for (int index = 0; index < columnCount; index++) {
+            data.put((String) session.getAttribute("columnName" + index),
+                    req.getParameter("columnValue" + index));
+        }
+        service.insert(getManager(session), tableName, data);
+        return "success";
+    }
+
+
+    @RequestMapping(value = "/deleteRecord", method = RequestMethod.POST)
+    public String updateRecord(@RequestParam("record") String keyValue,
+                               @RequestParam("tableName") String tableName,
+                               HttpSession session) {
+        service.deleteRecord(getManager(session), tableName, keyValue);
+        return "success";
     }
 
 
@@ -137,7 +210,13 @@ public class MainController {
         return "createDatabase";
     }
 
-
+    @RequestMapping(value = "/deleteDatabase", method = RequestMethod.POST)
+    public String deleteDatabase(@RequestParam("database") String databaseName,
+                               HttpSession session) {
+        service.deleteDatabase(getManager(session), databaseName);
+        return "success";
+    }
+    //TODO create Table, create Database, try delete database
 
     private DatabaseManager getManager(HttpSession session) {
         return (DatabaseManager) session.getAttribute("db_manager");
