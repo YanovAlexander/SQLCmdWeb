@@ -1,8 +1,10 @@
-#Readme SQLCmdWeb project
+# Readme SQLCmdWeb project
+
 This README would normally document whatever steps are necessary to get your application up and running.
 Need to be installed PostgreSQL, Apache Tomcat®. This is a Maven based project.
 
-####Support commands :
+### Support commands :
+
 
 ***Main menu commands:***
 
