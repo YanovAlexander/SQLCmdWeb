@@ -142,8 +142,8 @@ public class MainController {
                                @RequestParam("record") String keyValue,
                                @RequestParam("tableName") String tableName,
                                Model model, HttpSession session) {
-        String substring = columnNames.substring(1, columnNames.length() - 1);
-        String[] columnCountArray = substring.split(",");
+        String columnSubstring = columnNames.substring(1, columnNames.length() - 1);
+        String[] columnCountArray = columnSubstring.split(",");
         String keyName = columnCountArray[0];
         model.addAttribute("keyName", keyName);
         model.addAttribute("tableName", tableName);
@@ -168,6 +168,7 @@ public class MainController {
         for (int index = 1; index < columnCount; index++) {
             data.put((String) session.getAttribute("columnName" + index),
                     req.getParameter("columnValue" + index));
+            session.removeAttribute("columnName" + index);
         }
         service.update(getManager(session), tableName, keyName, keyValue, data);
         return "success";
@@ -196,6 +197,7 @@ public class MainController {
         for (int index = 0; index < columnCount; index++) {
             data.put((String) session.getAttribute("columnName" + index),
                     req.getParameter("columnValue" + index));
+            session.removeAttribute("columnName" + index);
         }
         service.insert(getManager(session), tableName, data);
         return "success";
