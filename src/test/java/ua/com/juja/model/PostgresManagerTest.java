@@ -31,9 +31,10 @@ public class PostgresManagerTest {
     }
 
     @After
-    public  void clearAfterAllTests() {
-            manager.connect("", DB_USERNAME, DB_PASSWORD);
-            manager.deleteDatabase(DB_NAME);
+    public void clearAfterAllTests() {
+        manager.connect("", DB_USERNAME, DB_PASSWORD);
+        manager.deleteTable(TABLE_NAME);
+        manager.deleteDatabase(DB_NAME);
     }
 
     @Test
@@ -96,6 +97,31 @@ public class PostgresManagerTest {
     }
 
     @Test
+    public void testDeleteRecord() {
+        // given
+        manager.clear("testing");
+
+        Map<String, Object> input = new LinkedHashMap<>();
+        input.put("id", 13);
+        input.put("username", "Stiven");
+        input.put("password", "Pass");
+        manager.create("testing", input);
+        List<DataSet> users1 = manager.getTableData("testing");
+
+        // when
+        manager.delete("testing", "13");
+
+        // then
+        List<DataSet> users = manager.getTableData("testing");
+
+        DataSet user1 = users1.get(0);
+
+        assertEquals("[id, username, password]", user1.getNames().toString());
+        assertEquals("[13, Stiven, Pass]", user1.getValues().toString());
+        assertEquals("[]", users.toString());
+    }
+
+    @Test
     public void testGetColumnNames() {
         // given
         manager.clear("testing");
@@ -105,6 +131,17 @@ public class PostgresManagerTest {
 
         // then
         assertEquals("[id, username, password]", columnNames.toString());
+    }
+
+    @Test
+    public void testGetDatabasesList() {
+
+        // given when
+        Set<String> columnNames = new LinkedHashSet<>();
+        columnNames.addAll(manager.databasesList());
+
+        // then
+        assertEquals("[postgres, testing, iuo]", columnNames.toString());
     }
 
 }
