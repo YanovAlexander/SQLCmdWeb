@@ -83,7 +83,7 @@ public class PostgresManagerTest {
         Map<String, Object> newValue = new LinkedHashMap<>();
         newValue.put("password", "pass2");
         newValue.put("username", "Pup");
-        manager.update("testing", "id", "13", newValue);
+        manager.update("testing", 13,  newValue);
 
         // then
         List<DataSet> users = manager.getTableData("testing");
@@ -139,7 +139,7 @@ public class PostgresManagerTest {
         columnNames.addAll(manager.databasesList());
 
         // then
-        assertEquals("[postgres, testing, iuo]", columnNames.toString());
+        assertEquals("[postgres, newrrr, testing]", columnNames.toString());
     }
 
 }

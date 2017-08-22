@@ -139,13 +139,11 @@ public class MainController {
 
     @RequestMapping(value = "/updateRecord", method = RequestMethod.GET)
     public String updateRecord(@RequestParam("table") String columnNames,
-                               @RequestParam("record") String keyValue,
+                               @RequestParam("record") Integer keyValue,
                                @RequestParam("tableName") String tableName,
                                Model model, HttpSession session) {
         String columnSubstring = columnNames.substring(1, columnNames.length() - 1);
         String[] columnCountArray = columnSubstring.split(",");
-        String keyName = columnCountArray[0];
-        model.addAttribute("keyName", keyName);
         model.addAttribute("tableName", tableName);
         model.addAttribute("keyValue", keyValue);
         model.addAttribute("columnCount", columnCountArray.length);
@@ -159,8 +157,7 @@ public class MainController {
     @RequestMapping(value = "/updateRecord", method = RequestMethod.POST)
     public String updatingRecord(@RequestParam("columnCount") Integer columnCount,
                                  @RequestParam("tableName") String tableName,
-                                 @RequestParam("keyName") String keyName,
-                                 @RequestParam("keyValue") String keyValue,
+                                 @RequestParam("keyValue") Integer keyValue,
                                  HttpSession session,
                                  HttpServletRequest req) {
         Map<String, Object> data = new HashMap<>();
@@ -170,7 +167,7 @@ public class MainController {
                     req.getParameter("columnValue" + index));
             session.removeAttribute("columnName" + index);
         }
-        service.update(getManager(session), tableName, keyName, keyValue, data);
+        service.update(getManager(session), tableName, keyValue, data);
         return "success";
     }
 
