@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Interface for work with Database layer.
+ */
+
 public interface DatabaseManager {
 
     /**
