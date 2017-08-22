@@ -51,7 +51,7 @@ public abstract class ServiceImpl implements Service {
 
     @Override
     public void clear(DatabaseManager manager, String tableName) {
-        manager.clear(tableName);
+        manager.clearTable(tableName);
     }
 
     @Override
@@ -61,12 +61,12 @@ public abstract class ServiceImpl implements Service {
 
     @Override
     public void deleteRecord(DatabaseManager manager, String tableName, String keyValue) {
-        manager.delete(tableName, keyValue);
+        manager.deleteRecord(tableName, keyValue);
     }
 
     @Override
     public void update(DatabaseManager manager, String tableName, Integer keyValue, Map<String, Object> data) {
-        manager.update(tableName, keyValue, data);
+        manager.updateRecord(tableName, keyValue, data);
     }
 
     @Override
@@ -91,6 +91,6 @@ public abstract class ServiceImpl implements Service {
 
     @Override
     public void insert(DatabaseManager databaseManager, String tableName, Map<String, Object> data) {
-        databaseManager.create(tableName, data);
+        databaseManager.insertRecord(tableName, data);
     }
 }

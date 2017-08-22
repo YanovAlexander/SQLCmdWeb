@@ -22,13 +22,13 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void clear(String tableName) {
+    public void clearTable(String tableName) {
         get(tableName).clear();
     }
 
     @Override
-    public void create(String tableName, Map<String, Object> columnData) {
-      DataSet data = new DataSetImpl();
+    public void insertRecord(String tableName, Map<String, Object> columnData) {
+        DataSet data = new DataSetImpl();
         for (Map.Entry<String, Object> pair : columnData.entrySet()) {
             data.put(pair.getKey(), pair.getValue());
         }
@@ -44,7 +44,7 @@ public class InMemoryDatabaseManager implements DatabaseManager {
 
 
     @Override
-    public void update(String tableName, Integer keyValue, Map<String, Object> columnData) {
+    public void updateRecord(String tableName, Integer keyValue, Map<String, Object> columnData) {
 
     }
 
@@ -54,7 +54,6 @@ public class InMemoryDatabaseManager implements DatabaseManager {
         }
         return tables.get(tableName);
     }
-
 
 
     @Override
@@ -78,17 +77,12 @@ public class InMemoryDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void delete(String tableName, String keyValue) {
+    public void deleteRecord(String tableName, String keyValue) {
 
     }
 
     @Override
     public void deleteDatabase(String databaseName) {
-
-    }
-
-    @Override
-    public void disconnectFromDB() {
 
     }
 
@@ -102,8 +96,4 @@ public class InMemoryDatabaseManager implements DatabaseManager {
         return null;
     }
 
-    @Override
-    public boolean isConnected() {
-        return true;
-    }
 }

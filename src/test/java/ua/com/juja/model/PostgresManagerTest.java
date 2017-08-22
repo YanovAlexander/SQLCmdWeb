@@ -50,14 +50,14 @@ public class PostgresManagerTest {
     @Test
     public void testGetTableData() {
         // given
-        manager.clear("testing");
+        manager.clearTable("testing");
 
         // when
         Map<String, Object> input = new LinkedHashMap<>();
         input.put("id", 13);
         input.put("username", "Stiven");
         input.put("password", "Pass");
-        manager.create("testing", input);
+        manager.insertRecord("testing", input);
 
         // then
         List<DataSet> users = manager.getTableData("testing");
@@ -71,19 +71,19 @@ public class PostgresManagerTest {
     @Test
     public void testUpdateTableData() {
         // given
-        manager.clear("testing");
+        manager.clearTable("testing");
 
         Map<String, Object> input = new LinkedHashMap<>();
         input.put("id", 13);
         input.put("username", "Stiven");
         input.put("password", "Pass");
-        manager.create("testing", input);
+        manager.insertRecord("testing", input);
 
         // when
         Map<String, Object> newValue = new LinkedHashMap<>();
         newValue.put("password", "pass2");
         newValue.put("username", "Pup");
-        manager.update("testing", 13,  newValue);
+        manager.updateRecord("testing", 13,  newValue);
 
         // then
         List<DataSet> users = manager.getTableData("testing");
@@ -97,17 +97,17 @@ public class PostgresManagerTest {
     @Test
     public void testDeleteRecord() {
         // given
-        manager.clear("testing");
+        manager.clearTable("testing");
 
         Map<String, Object> input = new LinkedHashMap<>();
         input.put("id", 13);
         input.put("username", "Stiven");
         input.put("password", "Pass");
-        manager.create("testing", input);
+        manager.insertRecord("testing", input);
         List<DataSet> users1 = manager.getTableData("testing");
 
         // when
-        manager.delete("testing", "13");
+        manager.deleteRecord("testing", "13");
 
         // then
         List<DataSet> users = manager.getTableData("testing");
@@ -122,7 +122,7 @@ public class PostgresManagerTest {
     @Test
     public void testGetColumnNames() {
         // given
-        manager.clear("testing");
+        manager.clearTable("testing");
 
         // when
         Set<String> columnNames = manager.getTableColumns("testing");

@@ -17,7 +17,6 @@ public class PostgresManager implements DatabaseManager {
     private String database;
     private String userName;
     private String password;
-    private boolean isConnected;
     private JdbcTemplate template;
 
     private static final String HOST = "localhost";
@@ -29,7 +28,7 @@ public class PostgresManager implements DatabaseManager {
             "WHERE table_schema = 'public'";
     private static final String TABLE_FIND = "SELECT * FROM public.%s";
     private static final String INSERT = "INSERT INTO %s (%s) VALUES (%s)";
-    private static final String CLEAR = "DELETE from public.%s";
+    private static final String CLEAR_TABLE = "DELETE from public.%s";
     private static final String UPDATE = "UPDATE public.%s SET %s WHERE id = ?";
     private static final String SELECT = "SELECT * FROM information_schema.columns " +
             "WHERE table_schema = 'public'  AND table_name = '%s'";
@@ -39,7 +38,7 @@ public class PostgresManager implements DatabaseManager {
     private static final String DELETE_RECORD = "DELETE FROM %s WHERE id = '%s'";
     private static final String DELETE_DATABASE = "DROP DATABASE %s";
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS %s(id INT NOT NULL PRIMARY KEY, %s)";
-    private static int DATABASE_NAME_INDEX = 1;
+    private static final int DATABASE_NAME_INDEX = 1;
 
 
     @Override
@@ -67,7 +66,7 @@ public class PostgresManager implements DatabaseManager {
         try {
             Class.forName(DRIVER);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Please add jdbc jar to project.", e);
+            throw new DatabaseManagerException("Please add jdbc jar to project.", e);
         }
         try {
             if (!StringUtils.isEmpty(connection)) {
@@ -89,12 +88,12 @@ public class PostgresManager implements DatabaseManager {
     }
 
     @Override
-    public void clear(String tableName) {
-        template.execute(String.format(CLEAR, tableName));
+    public void clearTable(String tableName) {
+        template.execute(String.format(CLEAR_TABLE, tableName));
     }
 
     @Override
-    public void create(String tableName, Map<String, Object> columnData) {
+    public void insertRecord(String tableName, Map<String, Object> columnData) {
         String columnsNames = StringUtils.collectionToDelimitedString(
                 columnData.keySet(), ",");
         String values = StringUtils.collectionToDelimitedString(
@@ -104,7 +103,7 @@ public class PostgresManager implements DatabaseManager {
     }
 
     @Override
-    public void update(String tableName, Integer keyValue, Map<String, Object> columnData) {
+    public void updateRecord(String tableName, Integer keyValue, Map<String, Object> columnData) {
         String tableNames = StringUtils.collectionToDelimitedString(
                 columnData.keySet(), ",", "", " = ?");
         List<Object> objects = new LinkedList<>(columnData.values());
@@ -138,7 +137,7 @@ public class PostgresManager implements DatabaseManager {
     }
 
     @Override
-    public void delete(String tableName, String keyValue) {
+    public void deleteRecord(String tableName, String keyValue) {
         template.execute(String.format(DELETE_RECORD, tableName, keyValue));
     }
 
@@ -149,26 +148,13 @@ public class PostgresManager implements DatabaseManager {
 
     @Override
     public void createTable(String tableName, List<String> columnParameters) {
-        String columnType = "varchar(50)";
         String parameters = StringUtils.collectionToDelimitedString(
-                columnParameters, ",", "", " " + columnType);
+                columnParameters, ",", "", " varchar(50)");
         template.update(String.format(CREATE_TABLE, tableName, parameters));
-    }
-
-    @Override
-    public void disconnectFromDB() {
-        isConnected = false;
-        connect("", userName, password);
-    }
-
-    @Override
-    public boolean isConnected() {
-        return isConnected;
     }
 
     @Override
     public String getDatabaseName() {
         return database;
     }
-
 }

@@ -1,17 +1,12 @@
 package ua.com.juja.service;
 
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ua.com.juja.model.DatabaseManager;
-import ua.com.juja.model.InMemoryDatabaseManager;
 
 import java.util.*;
 import static org.junit.Assert.assertEquals;
@@ -31,13 +26,13 @@ public class ServiceImplTest {
         input.put("id", 13);
         input.put("name", "Stiven");
         input.put("password", "Pass");
-        manager.create("users", input);
+        manager.insertRecord("users", input);
 
         Map<String, Object> input2 = new LinkedHashMap<>();
         input2.put("id", 14);
         input2.put("name", "Eva");
         input2.put("password", "PassPass");
-        manager.create("users", input2);
+        manager.insertRecord("users", input2);
 
         // when
         List<List<String>> users = service.find(manager, "users");

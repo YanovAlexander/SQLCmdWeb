@@ -19,17 +19,17 @@ public class NullDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void clear(String tableName) {
+    public void clearTable(String tableName) {
         //NOP
     }
 
     @Override
-    public void create(String tableName, Map<String, Object> columnData) {
+    public void insertRecord(String tableName, Map<String, Object> columnData) {
         //NOP
     }
 
     @Override
-    public void update(String tableName, Integer keyValue, Map<String, Object> columnData) {
+    public void updateRecord(String tableName, Integer keyValue, Map<String, Object> columnData) {
         //NOP
     }
 
@@ -54,17 +54,12 @@ public class NullDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void delete(String tableName, String keyValue) {
+    public void deleteRecord(String tableName, String keyValue) {
         //NOP
     }
 
     @Override
     public void deleteDatabase(String databaseName) {
-        //NOP
-    }
-
-    @Override
-    public void disconnectFromDB() {
         //NOP
     }
 
@@ -76,10 +71,5 @@ public class NullDatabaseManager implements DatabaseManager {
     @Override
     public String getDatabaseName() {
         return "";
-    }
-
-    @Override
-    public boolean isConnected() {
-        return false;
     }
 }
