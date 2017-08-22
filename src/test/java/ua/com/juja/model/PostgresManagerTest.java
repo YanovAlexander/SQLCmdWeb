@@ -1,8 +1,6 @@
 package ua.com.juja.model;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import java.util.*;
 
@@ -16,10 +14,10 @@ public class PostgresManagerTest {
     private final static String DB_NAME_SECOND = "testingdb";
     private final static String TABLE_NAME = "testing";
 
-    private DatabaseManager manager;
+    private static DatabaseManager manager;
 
-    @Before
-    public void init() {
+    @BeforeClass
+    public static void init() {
         manager = new PostgresManager();
         manager.connect("", DB_USERNAME, DB_PASSWORD);
         manager.createDatabase(DB_NAME);
@@ -30,8 +28,8 @@ public class PostgresManagerTest {
         manager.createTable(TABLE_NAME, columnParameters);
     }
 
-    @After
-    public void clearAfterAllTests() {
+    @AfterClass
+    public static void clearAfterAllTests() {
         manager.connect("", DB_USERNAME, DB_PASSWORD);
         manager.deleteTable(TABLE_NAME);
         manager.deleteDatabase(DB_NAME);
