@@ -65,8 +65,8 @@ public abstract class ServiceImpl implements Service {
     }
 
     @Override
-    public void update(DatabaseManager manager, String tableName, String keyName, String keyValue, Map<String, Object> data) {
-        manager.update(tableName, keyName, keyValue, data);
+    public void update(DatabaseManager manager, String tableName, Integer keyValue, Map<String, Object> data) {
+        manager.update(tableName, keyValue, data);
     }
 
     @Override

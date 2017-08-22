@@ -17,7 +17,7 @@ public interface DatabaseManager {
 
     void create(String tableName, Map<String, Object> columnData);
 
-    void update(String tableName, String keyName, String keyValue, Map<String, Object> columnData);
+    void update(String tableName, Integer keyValue, Map<String, Object> columnData);
 
     Set<String> getTableColumns(String tableName);
 

@@ -16,7 +16,7 @@ public interface Service {
 
     void deleteDatabase(DatabaseManager manager, String databaseName);
 
-    void update(DatabaseManager manager, String tableName, String  keyName, String keyValue, Map<String, Object> data);
+    void update(DatabaseManager manager, String tableName, Integer keyValue, Map<String, Object> data);
 
     void deleteTable(DatabaseManager manager, String tableName);
 

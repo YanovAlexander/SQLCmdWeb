@@ -29,7 +29,7 @@ public class NullDatabaseManager implements DatabaseManager {
     }
 
     @Override
-    public void update(String tableName, String keyName, String keyValue, Map<String, Object> columnData) {
+    public void update(String tableName, Integer keyValue, Map<String, Object> columnData) {
         //NOP
     }
 
