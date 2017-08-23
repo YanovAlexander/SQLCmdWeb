@@ -1,7 +1,7 @@
 package ua.com.juja.service;
 
 import ua.com.juja.model.DatabaseManager;
-import ua.com.juja.model.UserAction;
+import ua.com.juja.model.entity.UserAction;
 
 import java.util.List;
 import java.util.Map;

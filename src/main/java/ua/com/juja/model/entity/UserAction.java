@@ -1,11 +1,22 @@
-package ua.com.juja.model;
+package ua.com.juja.model.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user_actions", schema = "public")
 public class UserAction {
-
-    private String userName;
-    private String dbName;
-    private String action;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(name = "user_name")
+    private String userName;
+
+    @Column(name = "db_name")
+    private String dbName;
+
+    @Column(name = "action")
+    private String action;
 
     public UserAction() {
         //NOP
