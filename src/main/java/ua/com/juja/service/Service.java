@@ -1,6 +1,7 @@
 package ua.com.juja.service;
 
 import ua.com.juja.model.DatabaseManager;
+import ua.com.juja.model.UserAction;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,6 @@ public interface Service {
 
     void deleteTable(DatabaseManager manager, String tableName);
 
-
     List<List<String>> find(DatabaseManager manager, String tableName);
 
     Set<String> tables(DatabaseManager manager);
@@ -31,6 +31,7 @@ public interface Service {
 
     Set<String> databases(DatabaseManager manager);
 
+    void insertRecord(DatabaseManager databaseManager, String tableName, Map<String, Object> data);
 
-    void insert(DatabaseManager databaseManager, String tableName, Map<String, Object> data);
+    List<UserAction> getAllFor(String userName);
 }

@@ -1,8 +1,12 @@
 package ua.com.juja.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import ua.com.juja.model.DataSet;
 import ua.com.juja.model.DatabaseManager;
+import ua.com.juja.model.UserAction;
+import ua.com.juja.model.UserActionsDao;
 
 import java.util.*;
 
@@ -10,12 +14,16 @@ import java.util.*;
 @Component
 public abstract class ServiceImpl implements Service {
 
-    public abstract  DatabaseManager getManager();
+    public abstract DatabaseManager getManager();
+
+    @Autowired
+    private UserActionsDao userActions;
 
     @Override
     public DatabaseManager connect(String databaseName, String userName, String password) {
         DatabaseManager manager = getManager();
         manager.connect(databaseName, userName, password);
+        userActions.log(userName, databaseName, "CONNECT");
         return manager;
     }
 
@@ -40,57 +48,82 @@ public abstract class ServiceImpl implements Service {
                 row.add(value.toString());
             }
         }
-
+        userActions.log(manager.getUserName(), manager.getDatabaseName(), "FIND(" + tableName + ")");
         return result;
     }
 
     @Override
     public Set<String> tables(DatabaseManager manager) {
+        userActions.log(manager.getUserName(), manager.getDatabaseName(), "TABLES");
         return manager.getTableNames();
     }
 
     @Override
     public void clear(DatabaseManager manager, String tableName) {
+        userActions.log(manager.getUserName(), manager.getDatabaseName(), "CLEAR(" + tableName + ")");
         manager.clearTable(tableName);
     }
 
     @Override
     public void deleteTable(DatabaseManager manager, String tableName) {
+        userActions.log(manager.getUserName(), manager.getDatabaseName(), "DELETE(" + tableName + ")");
         manager.deleteTable(tableName);
     }
 
     @Override
     public void deleteRecord(DatabaseManager manager, String tableName, String keyValue) {
+        userActions.log(manager.getUserName(), manager.getDatabaseName(), "DELETE_RECORD(" + tableName + ")");
         manager.deleteRecord(tableName, keyValue);
     }
 
     @Override
     public void update(DatabaseManager manager, String tableName, Integer keyValue, Map<String, Object> data) {
+        userActions.log(manager.getUserName(), manager.getDatabaseName(),
+                "UPDATE(table name : " + tableName +
+                        ",keyValue " + keyValue + ")");
         manager.updateRecord(tableName, keyValue, data);
     }
 
     @Override
     public void createTable(DatabaseManager manager, String tableName, List<String> columnParameters) {
+        userActions.log(manager.getUserName(), manager.getDatabaseName(),
+                "CREATE_TABLE(" + tableName + ")");
         manager.createTable(tableName, columnParameters);
     }
 
     @Override
     public void createDatabase(DatabaseManager manager, String databaseName) {
+        userActions.log(manager.getUserName(), manager.getDatabaseName(),
+                "CREATE_DATABASE(" + databaseName + ")");
         manager.createDatabase(databaseName);
     }
 
     @Override
     public Set<String> databases(DatabaseManager manager) {
+        userActions.log(manager.getUserName(), manager.getDatabaseName(), "DATABASE_LIST()");
         return manager.databasesList();
     }
 
     @Override
     public void deleteDatabase(DatabaseManager manager, String databaseName) {
+        userActions.log(manager.getUserName(), manager.getDatabaseName(),
+                "DELETE_DATABASE(" + databaseName + ")");
         manager.deleteDatabase(databaseName);
     }
 
     @Override
-    public void insert(DatabaseManager databaseManager, String tableName, Map<String, Object> data) {
-        databaseManager.insertRecord(tableName, data);
+    public void insertRecord(DatabaseManager manager, String tableName, Map<String, Object> data) {
+        userActions.log(manager.getUserName(), manager.getDatabaseName(),
+                "INSERT_RECORD(table name: " + tableName + "," +
+                        "data: " + data + ")");
+        manager.insertRecord(tableName, data);
+    }
+
+    @Override
+    public List<UserAction> getAllFor(String userName) {
+        if (StringUtils.isEmpty(userName)) {
+            throw new IllegalArgumentException("User name cant be null");
+        }
+        return userActions.getAllFor(userName);
     }
 }

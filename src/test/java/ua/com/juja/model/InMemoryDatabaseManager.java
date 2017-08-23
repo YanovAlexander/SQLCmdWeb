@@ -96,4 +96,8 @@ public class InMemoryDatabaseManager implements DatabaseManager {
         return null;
     }
 
+    @Override
+    public String getUserName() {
+        return "";
+    }
 }

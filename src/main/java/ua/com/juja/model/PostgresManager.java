@@ -16,7 +16,6 @@ public class PostgresManager implements DatabaseManager {
     private Connection connection;
     private String database;
     private String userName;
-    private String password;
     private JdbcTemplate template;
 
     private static final String HOST = "localhost";
@@ -77,7 +76,6 @@ public class PostgresManager implements DatabaseManager {
                     url + database, userName, password);
             this.database = database;
             this.userName = userName;
-            this.password = password;
             template = new JdbcTemplate(new SingleConnectionDataSource(connection, false));
         } catch (SQLException e) {
             connection = null;
@@ -156,5 +154,10 @@ public class PostgresManager implements DatabaseManager {
     @Override
     public String getDatabaseName() {
         return database;
+    }
+
+    @Override
+    public String getUserName() {
+        return userName;
     }
 }

@@ -15,5 +15,7 @@
 <br>
 <a href="/sqlcmd/createDatabase">Create database</a>
 <br>
+<a href="/sqlcmd/actions">Actions</a>
+<br>
 </body>
 </html>

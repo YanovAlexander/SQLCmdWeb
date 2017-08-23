@@ -120,4 +120,11 @@ public interface DatabaseManager {
      * @return name of database.
      */
     String getDatabaseName();
+
+    /**
+     * Getting name of user which already connected
+     *
+     * @return name of user.
+     */
+    String getUserName();
 }

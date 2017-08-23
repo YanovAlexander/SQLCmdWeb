@@ -72,4 +72,9 @@ public class NullDatabaseManager implements DatabaseManager {
     public String getDatabaseName() {
         return "";
     }
+
+    @Override
+    public String getUserName() {
+        return "";
+    }
 }

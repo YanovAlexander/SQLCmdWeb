@@ -66,7 +66,7 @@ public class MainController {
                          @RequestParam(value = "table") String table,
                          HttpSession session) {
         DatabaseManager manager = getManager(session);
-        model.addAttribute("tableName", table);//todo use model for send data to jsp, also on jsp use hidden fields to store some data
+        model.addAttribute("tableName", table);
         if (manager == null) {
             session.setAttribute("from-page", "/find?table=" + table);
             return "redirect:/connect";
@@ -75,6 +75,14 @@ public class MainController {
         model.addAttribute("table", service.find(manager, table));
 
         return "find";
+    }
+
+    @RequestMapping(value = "/actions", params = {"userName"}, method = RequestMethod.GET)
+    public String actions(Model model,
+                         @RequestParam(value = "userName") String userName) {
+        model.addAttribute("actions", service.getAllFor(userName));
+
+        return "actions";
     }
 
     @RequestMapping(value = "/tables", method = RequestMethod.GET)
@@ -92,14 +100,14 @@ public class MainController {
 
     @RequestMapping(value = "/clearTable", method = RequestMethod.POST)
     public String clearingTable(@RequestParam("tableName") String tableName,
-                             HttpSession session) {
+                                HttpSession session) {
         service.clear(getManager(session), tableName);
         return "success";
     }
 
     @RequestMapping(value = "/deleteTable", method = RequestMethod.POST)
     public String deletingTable(@RequestParam("tableName") String tableName,
-                              HttpSession session) {
+                                HttpSession session) {
         service.deleteTable(getManager(session), tableName);
         return "success";
     }
@@ -115,9 +123,9 @@ public class MainController {
 
     @RequestMapping(value = "/createTable", method = RequestMethod.POST)
     public String creatingTable(@RequestParam("columnCount") Integer columnCount,
-                              @RequestParam("tableName") String tableName,
-                              HttpSession session,
-                              HttpServletRequest req) {
+                                @RequestParam("tableName") String tableName,
+                                HttpSession session,
+                                HttpServletRequest req) {
 
         List<String> columnParameters = new ArrayList<>();
         for (int i = 1; i < columnCount; i++) {
@@ -196,14 +204,14 @@ public class MainController {
                     req.getParameter("columnValue" + index));
             session.removeAttribute("columnName" + index);
         }
-        service.insert(getManager(session), tableName, data);
+        service.insertRecord(getManager(session), tableName, data);
         return "success";
     }
 
     @RequestMapping(value = "/deleteRecord", method = RequestMethod.POST)
     public String deletingRecord(@RequestParam("record") String keyValue,
-                               @RequestParam("tableName") String tableName,
-                               HttpSession session) {
+                                 @RequestParam("tableName") String tableName,
+                                 HttpSession session) {
         service.deleteRecord(getManager(session), tableName, keyValue);
         return "success";
     }
@@ -229,16 +237,16 @@ public class MainController {
         return "createDatabase";
     }
 
-  @RequestMapping(value = "/createDatabase", method = RequestMethod.POST)
+    @RequestMapping(value = "/createDatabase", method = RequestMethod.POST)
     public String creatingDatabase(@RequestParam("databaseName") String databaseName,
-            HttpSession session) {
+                                   HttpSession session) {
         service.createDatabase(getManager(session), databaseName);
         return "success";
     }
 
     @RequestMapping(value = "/deleteDatabase", method = RequestMethod.POST)
     public String deletingDatabase(@RequestParam("database") String databaseName,
-                                 HttpSession session) {
+                                   HttpSession session) {
         service.deleteDatabase(getManager(session), databaseName);
         return "success";
     }
