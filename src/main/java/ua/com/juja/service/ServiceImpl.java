@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import ua.com.juja.model.DataSet;
-import ua.com.juja.model.DatabaseConnectionRepository;
 import ua.com.juja.model.DatabaseManager;
-import ua.com.juja.model.entity.DatabaseConnection;
 import ua.com.juja.model.entity.UserAction;
-import ua.com.juja.model.UserActionsRepository;
+import ua.com.juja.model.UserActionRepository;
 
 import java.util.*;
 
@@ -19,17 +17,14 @@ public abstract class ServiceImpl implements Service {
     public abstract DatabaseManager getManager();
 
     @Autowired
-    private UserActionsRepository userActions;
-
-    @Autowired
-    private DatabaseConnectionRepository databaseConnections;
+    private UserActionRepository userActions;
 
     @Override
     public DatabaseManager connect(String databaseName, String userName, String password) {
         DatabaseManager manager = getManager();
         manager.connect(databaseName, userName, password);
         String action = "CONNECT";
-        saveAction(databaseName, userName, action);
+        userActions.saveAction(databaseName, userName, action);
         return manager;
     }
 
@@ -55,42 +50,42 @@ public abstract class ServiceImpl implements Service {
                 row.add(value.toString());
             }
         }
-        saveAction(manager.getDatabaseName(), manager.getUserName(), "FIND(" + tableName + ")");
+        userActions.saveAction(manager.getDatabaseName(), manager.getUserName(), "FIND(" + tableName + ")");
 
         return result;
     }
 
     @Override
     public Set<String> tables(DatabaseManager manager) {
-        saveAction(manager.getDatabaseName(), manager.getUserName(), "TABLES");
+        userActions.saveAction(manager.getDatabaseName(), manager.getUserName(), "TABLES");
 
         return manager.getTableNames();
     }
 
     @Override
     public void clear(DatabaseManager manager, String tableName) {
-        saveAction(manager.getDatabaseName(), manager.getUserName(), "CLEAR(" + tableName + ")");
+        userActions.saveAction(manager.getDatabaseName(), manager.getUserName(), "CLEAR(" + tableName + ")");
 
         manager.clearTable(tableName);
     }
 
     @Override
     public void deleteTable(DatabaseManager manager, String tableName) {
-        saveAction(manager.getDatabaseName(), manager.getUserName(), "DELETE(" + tableName + ")");
+        userActions.saveAction(manager.getDatabaseName(), manager.getUserName(), "DELETE(" + tableName + ")");
 
         manager.deleteTable(tableName);
     }
 
     @Override
     public void deleteRecord(DatabaseManager manager, String tableName, String keyValue) {
-        saveAction(manager.getDatabaseName(), manager.getUserName(), "DELETE_RECORD(" + tableName + ")");
+        userActions.saveAction(manager.getDatabaseName(), manager.getUserName(), "DELETE_RECORD(" + tableName + ")");
 
         manager.deleteRecord(tableName, keyValue);
     }
 
     @Override
     public void update(DatabaseManager manager, String tableName, Integer keyValue, Map<String, Object> data) {
-        saveAction(manager.getDatabaseName(), manager.getUserName(), "UPDATE(table name : " + tableName +
+        userActions.saveAction(manager.getDatabaseName(), manager.getUserName(), "UPDATE(table name : " + tableName +
                 ",keyValue " + keyValue + ")");
 
         manager.updateRecord(tableName, keyValue, data);
@@ -98,37 +93,33 @@ public abstract class ServiceImpl implements Service {
 
     @Override
     public void createTable(DatabaseManager manager, String tableName, List<String> columnParameters) {
-        saveAction(manager.getDatabaseName(), manager.getUserName(), "CREATE_TABLE(" + tableName + ")");
+        userActions.saveAction(manager.getDatabaseName(), manager.getUserName(), "CREATE_TABLE(" + tableName + ")");
 
         manager.createTable(tableName, columnParameters);
     }
 
     @Override
     public void createDatabase(DatabaseManager manager, String databaseName) {
-        saveAction(manager.getDatabaseName(), manager.getUserName(), "CREATE_DATABASE(" + databaseName + ")");
+        userActions.saveAction(manager.getDatabaseName(), manager.getUserName(), "CREATE_DATABASE(" + databaseName + ")");
         manager.createDatabase(databaseName);
     }
 
     @Override
     public Set<String> databases(DatabaseManager manager) {
-        saveAction(manager.getDatabaseName(), manager.getUserName(), "DATABASE_LIST()");
+        userActions.saveAction(manager.getDatabaseName(), manager.getUserName(), "DATABASE_LIST()");
         return manager.databasesList();
     }
 
     @Override
     public void deleteDatabase(DatabaseManager manager, String databaseName) {
-        saveAction(manager.getDatabaseName(), manager.getUserName(), "DELETE_DATABASE(" + databaseName + ")");
+        userActions.saveAction(manager.getDatabaseName(), manager.getUserName(), "DELETE_DATABASE(" + databaseName + ")");
         manager.deleteDatabase(databaseName);
     }
 
     @Override
     public void insertRecord(DatabaseManager manager, String tableName, Map<String, Object> data) {
-        DatabaseConnection databaseConnection =
-                databaseConnections.findByUserNameAndDbName(manager.getUserName(),
-                        manager.getDatabaseName());
-        UserAction action = new UserAction("INSERT_RECORD(table name: " + tableName + ")",
-                databaseConnection);
-        userActions.save(action);
+        userActions.saveAction(manager.getDatabaseName(), manager.getUserName(),
+                "INSERT_RECORD(table name: " + tableName + ")");
         manager.insertRecord(tableName, data);
     }
 
@@ -140,15 +131,4 @@ public abstract class ServiceImpl implements Service {
         return userActions.findByUserName(userName);
     }
 
-
-    private void saveAction(String databaseName, String userName, String action) {
-        DatabaseConnection databaseConnection =
-                databaseConnections.findByUserNameAndDbName(userName, databaseName);
-        if (databaseConnection == null) {
-            databaseConnection = databaseConnections.save(
-                    new DatabaseConnection(userName, databaseName));
-        }
-        userActions.save(new UserAction(action,
-                databaseConnection));
-    }
 }
