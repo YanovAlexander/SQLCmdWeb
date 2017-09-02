@@ -23,12 +23,6 @@ public class MainController {
         return "redirect:/menu";
     }
 
-    @RequestMapping(value = "/menu", method = RequestMethod.GET)
-    public String menu(ModelMap model) {
-        model.put("items", service.commandList());
-        return "menu";
-    }
-
     @RequestMapping(value = "/help", method = RequestMethod.GET)
     public String help() {
         return "help";
