@@ -40,6 +40,16 @@
     </bean>
 
     <bean id="service" class="ua.com.juja.service.ServiceImpl">
+        <property name="commands">
+            <list>
+                <value>help</value>
+                <value>tables</value>
+                <value>create-table</value>
+                <value>databases</value>
+                <value>create-database</value>
+                <value>actions</value>
+            </list>
+        </property>
         <lookup-method name="getManager" bean="postgresManager"/>
     </bean>
 
