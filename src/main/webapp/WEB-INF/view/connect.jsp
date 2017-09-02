@@ -6,7 +6,7 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<form:form method="POST" action="connect" modelAttribute="connection">
+<form:form method="post" action="connect" modelAttribute="connection">
     <form:input type="hidden" path="fromPage" id="from-page"/>
     <table>
         <tr>

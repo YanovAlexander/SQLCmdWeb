@@ -5,7 +5,7 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<form action="createTableForm">
+<form action="create-table-form">
     <table>
         <tr>
             <td>

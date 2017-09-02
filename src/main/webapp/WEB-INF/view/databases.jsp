@@ -24,7 +24,7 @@
                     ${database}
             </td>
             <td>
-                <form action="deleteDatabase" method="post">
+                <form action="delete-database" method="post">
                     <input type="hidden" name="database" value="${database}">
                     <input type="submit" value="Delete">
                 </form>

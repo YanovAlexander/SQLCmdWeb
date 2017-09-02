@@ -23,13 +23,13 @@
                 </a>
             </td>
             <td>
-                <form action="clearTable" method="post">
+                <form action="clear-table" method="post">
                     <input type="hidden" name="tableName" value=${name}>
                     <input type="submit" value="Clear">
                 </form>
             </td>
             <td>
-                <form action="deleteTable" method="post">
+                <form action="delete-table" method="post">
                     <input type="hidden" name="tableName" value="${name}">
                     <input type="submit" value="Delete">
                 </form>

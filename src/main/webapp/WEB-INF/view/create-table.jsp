@@ -5,7 +5,7 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<form action="createTable" method="post">
+<form action="create-table" method="post">
     <table>
         <input type="hidden" name="tableName" value="${tableName}"/>
         <input type="hidden" name="columnCount" value="${columnCount}"/>

@@ -5,7 +5,7 @@
     <title>SQLCmd</title>
 </head>
 <body>
-<form action="insertRecord" method="post">
+<form action="insert-record" method="post">
     <table>
         <input type="hidden" name="columnCount" value="${columnCount}"/>
         <input type="hidden" name="tableName" value="${tableName}"/>

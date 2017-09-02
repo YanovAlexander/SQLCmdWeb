@@ -16,14 +16,14 @@
         </c:forEach>
         <c:if test="${row != table[0]}">
             <td>
-                <form action="deleteRecord" method="post">
+                <form action="delete-record" method="post">
                     <input type="hidden" name="record" value=${row[0]}>
                     <input type="hidden" name="tableName" value=${tableName}>
                     <input type="submit" value="Clear"/>
                 </form>
             </td>
             <td>
-                <form action="updateRecord">
+                <form action="update-record">
                     <input type="hidden" name="record" value="${row[0]} ">
                     <input type="hidden" name="table" value="${table[0]}">
                     <input type="hidden" name="tableName" value=${tableName}>
@@ -40,7 +40,7 @@
     </tr>
 </table>
 <br>
-<form action="insertRecord">
+<form action="insert-record">
     <input type="hidden" name="table" value="${table[0]}">
     <input type="hidden" name="tableName" value="${tableName}">
         <input type="submit" value="Insert">
