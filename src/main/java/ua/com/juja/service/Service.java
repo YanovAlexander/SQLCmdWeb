@@ -1,6 +1,6 @@
 package ua.com.juja.service;
 
-import ua.com.juja.model.DatabaseManager;
+import ua.com.juja.model.manager.DatabaseManager;
 import ua.com.juja.model.entity.UserAction;
 
 import java.util.List;
@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 public interface Service {
+
+    List<String> commandList();
 
     DatabaseManager connect(String databaseName, String userName, String password) throws ServiceException;
 

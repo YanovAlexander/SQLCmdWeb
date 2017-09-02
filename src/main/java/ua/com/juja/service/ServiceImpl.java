@@ -2,12 +2,11 @@ package ua.com.juja.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import ua.com.juja.model.DataSet;
-import ua.com.juja.model.DatabaseManager;
+import ua.com.juja.model.dataSet.DataSet;
+import ua.com.juja.model.manager.DatabaseManager;
 import ua.com.juja.model.entity.UserAction;
-import ua.com.juja.model.UserActionRepository;
+import ua.com.juja.model.repository.UserActionRepository;
 
 import java.util.*;
 
@@ -15,10 +14,17 @@ import java.util.*;
 @Component
 public abstract class ServiceImpl implements Service {
 
+    private List<String> commands;
+
     public abstract DatabaseManager getManager();
 
     @Autowired
     private UserActionRepository userActions;
+
+    @Override
+    public List<String> commandList() {
+        return commands;
+    }
 
     @Override
     public DatabaseManager connect(String databaseName, String userName, String password) {
@@ -132,4 +138,7 @@ public abstract class ServiceImpl implements Service {
         return userActions.findByUserName(userName);
     }
 
+    public void setCommands(List<String> commands) {
+        this.commands = commands;
+    }
 }
