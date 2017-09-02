@@ -1,4 +1,6 @@
-package ua.com.juja.model;
+package ua.com.juja.model.manager;
+
+import ua.com.juja.model.dataSet.DataSet;
 
 import java.util.*;
 

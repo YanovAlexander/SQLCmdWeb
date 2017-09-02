@@ -1,10 +1,12 @@
-package ua.com.juja.model;
+package ua.com.juja.model.manager;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import ua.com.juja.model.dataSet.DataSet;
+import ua.com.juja.model.dataSet.DataSetImpl;
 
 import java.sql.*;
 import java.util.*;
