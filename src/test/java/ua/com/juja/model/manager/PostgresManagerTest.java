@@ -1,6 +1,9 @@
-package ua.com.juja.model;
+package ua.com.juja.model.manager;
 
 import org.junit.*;
+import ua.com.juja.model.dataSet.DataSet;
+import ua.com.juja.model.manager.DatabaseManager;
+import ua.com.juja.model.manager.PostgresManager;
 
 import java.util.*;
 

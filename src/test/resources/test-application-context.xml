@@ -14,6 +14,6 @@
         <lookup-method name="getManager" bean="inMemoryDatabaseManager"/>
     </bean>
 
-    <bean id="inMemoryDatabaseManager" class="ua.com.juja.model.InMemoryDatabaseManager" scope="prototype"/>
+    <bean id="inMemoryDatabaseManager" class="ua.com.juja.model.manager.InMemoryDatabaseManager" scope="prototype"/>
 
 </beans>
