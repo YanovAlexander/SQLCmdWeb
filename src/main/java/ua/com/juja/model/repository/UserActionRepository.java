@@ -1,4 +1,4 @@
-package ua.com.juja.model;
+package ua.com.juja.model.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

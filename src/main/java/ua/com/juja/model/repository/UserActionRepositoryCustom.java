@@ -1,4 +1,4 @@
-package ua.com.juja.model;
+package ua.com.juja.model.repository;
 
 public interface UserActionRepositoryCustom {
 
