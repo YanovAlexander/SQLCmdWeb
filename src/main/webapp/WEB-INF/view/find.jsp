@@ -23,12 +23,7 @@
                 </form>
             </td>
             <td>
-                <form action="update-record">
-                    <input type="hidden" name="record" value="${row[0]} ">
-                    <input type="hidden" name="table" value="${table[0]}">
-                    <input type="hidden" name="tableName" value=${tableName}>
-                    <input type="submit" value="Update">
-                </form>
+                <a href="${tableName}/${row[0]}/update-record">Update</a>
             </td>
         </c:if>
         <c:if test="${row == table[0]}">

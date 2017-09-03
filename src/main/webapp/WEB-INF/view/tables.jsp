@@ -18,7 +18,7 @@
     <c:forEach items="${tables}" var="name">
         <tr>
             <td>
-                <a href="find?table=${name}">
+                <a href="find/${name}">
                         ${name}
                 </a>
             </td>

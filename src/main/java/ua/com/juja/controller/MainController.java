@@ -57,11 +57,10 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/actions", params = {"userName"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/actions/{userName}", method = RequestMethod.GET)
     public String actions(Model model,
-                         @RequestParam(value = "userName") String userName) {
+                         @PathVariable("userName") String userName) {
         model.addAttribute("actions", service.getAllFor(userName));
-
         return "actions";
     }
 
@@ -78,9 +77,9 @@ public class MainController {
         return "tables";
     }
 
-    @RequestMapping(value = "/find", params = {"table"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/find/{table}", method = RequestMethod.GET)
     public String tables(Model model,
-                         @RequestParam(value = "table") String table,
+                         @PathVariable("table") String table,
                          HttpSession session) {
         DatabaseManager manager = getManager(session);
         model.addAttribute("tableName", table);
@@ -90,7 +89,6 @@ public class MainController {
         }
 
         model.addAttribute("table", service.find(manager, table));
-
         return "find";
     }
 
@@ -141,31 +139,25 @@ public class MainController {
         return "create-table";
     }
 
-    @RequestMapping(value = "/update-record", method = RequestMethod.GET)
-    public String updateRecord(@RequestParam("table") String columnNames,
-                               @RequestParam("record") Integer keyValue,
-                               @RequestParam("tableName") String tableName,
+    @RequestMapping(value = "/find/{tableName}/{keyValue}/update-record", method = RequestMethod.GET)
+    public String updateRecord(@PathVariable("keyValue") Integer keyValue,
+                               @PathVariable("tableName") String tableName,
                                Model model, HttpSession session) {
-        String columnSubstring = columnNames.substring(1, columnNames.length() - 1);
-        String[] columnCountArray = columnSubstring.split(",");
-        model.addAttribute("tableName", tableName);
-        model.addAttribute("keyValue", keyValue);
-        model.addAttribute("columnCount", columnCountArray.length);
-        for (int i = 1; i < columnCountArray.length; i++) {
-            session.setAttribute("columnName" + i, columnCountArray[i]);
+        List<String> columnNames = getManager(session).getColumnNames(tableName);
+        model.addAttribute("columnCount", columnNames.size());
+        for (int i = 1; i < columnNames.size(); i++) {
+            session.setAttribute("columnName" + i, columnNames.get(i));
         }
-
         return "update-record";
     }
 
-    @RequestMapping(value = "/update-record", method = RequestMethod.POST)
+    @RequestMapping(value = "/find/{tableName}/{keyValue}/update-record", method = RequestMethod.POST)
     public String updatingRecord(@RequestParam("columnCount") Integer columnCount,
-                                 @RequestParam("tableName") String tableName,
-                                 @RequestParam("keyValue") Integer keyValue,
+                                 @PathVariable("tableName") String tableName,
+                                 @PathVariable("keyValue") Integer keyValue,
                                  HttpSession session,
                                  HttpServletRequest req) {
         Map<String, Object> data = new HashMap<>();
-
         for (int index = 1; index < columnCount; index++) {
             data.put((String) session.getAttribute("columnName" + index),
                     req.getParameter("columnValue" + index));
@@ -250,5 +242,4 @@ public class MainController {
     private DatabaseManager getManager(HttpSession session) {
         return (DatabaseManager) session.getAttribute("db_manager");
     }
-
 }
