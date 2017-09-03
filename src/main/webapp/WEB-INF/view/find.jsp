@@ -23,7 +23,9 @@
                 </form>
             </td>
             <td>
-                <a href="${tableName}/${row[0]}/update-record">Update</a>
+                <a href="${tableName}/${row[0]}/update-record">
+                    <input type="button" value="Update">
+                </a>
             </td>
         </c:if>
         <c:if test="${row == table[0]}">
@@ -35,7 +37,9 @@
     </tr>
 </table>
 <br>
-<a href="${tableName}/insert-record">Insert</a>
+<a href="${tableName}/insert-record">
+    <input type="button" value="Insert">
+</a>
 <%@include file="footer.jsp" %>
 </body>
 </html>

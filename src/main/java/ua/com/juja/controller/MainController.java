@@ -109,7 +109,7 @@ public class MainController {
     @RequestMapping(value = "/create-table", method = RequestMethod.GET)
     public String createTable(HttpSession session) {
         if (getManager(session) == null) {
-            session.setAttribute("from-page", "/table");
+            session.setAttribute("from-page", "/create-table");
             return "redirect:/connect";
         }
         return "create-table-form";
@@ -130,7 +130,7 @@ public class MainController {
     }
 
 
-    @RequestMapping(value = "/create-table-form", method = RequestMethod.GET)
+    @RequestMapping(value = "/create-table-form", method = RequestMethod.POST)
     public String createTableForm(@RequestParam("columnCount") Integer columnCount,
                                   @RequestParam("tableName") String tableName,
                                   Model model) {
