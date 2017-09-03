@@ -167,23 +167,21 @@ public class MainController {
         return "success";
     }
 
-    @RequestMapping(value = "/insert-record", method = RequestMethod.GET)
-    public String insertRecord(@RequestParam("table") String columnNames,
-                               @RequestParam("tableName") String tableName,
+    @RequestMapping(value = "/find/{tableName}/insert-record", method = RequestMethod.GET)
+    public String insertRecord(@PathVariable("tableName") String tableName,
                                Model model, HttpSession session) {
         model.addAttribute("tableName", tableName);
-        String substring = columnNames.substring(1, columnNames.length() - 1);
-        String[] columnCountArray = substring.split(",");
-        model.addAttribute("columnCount", columnCountArray.length);
-        for (int i = 0; i < columnCountArray.length; i++) {
-            session.setAttribute("columnName" + i, columnCountArray[i]);
+        List<String> columnNames = getManager(session).getColumnNames(tableName);
+        model.addAttribute("columnCount", columnNames.size());
+        for (int i = 0; i < columnNames.size(); i++) {
+            session.setAttribute("columnName" + i, columnNames.get(i));
         }
         return "insert-record";
     }
 
-    @RequestMapping(value = "/insert-record", method = RequestMethod.POST)
+    @RequestMapping(value = "/find/{tableName}/insert-record", method = RequestMethod.POST)
     public String insertingRecord(@RequestParam("columnCount") Integer columnCount,
-                                  @RequestParam("tableName") String tableName,
+                                  @PathVariable("tableName") String tableName,
                                   HttpSession session,
                                   HttpServletRequest req) {
         Map<String, Object> data = new LinkedHashMap<>();
@@ -196,7 +194,7 @@ public class MainController {
         return "success";
     }
 
-    @RequestMapping(value = "/delete-record", method = RequestMethod.POST)
+    @RequestMapping(value = "/find/delete-record", method = RequestMethod.POST)
     public String deletingRecord(@RequestParam("record") String keyValue,
                                  @RequestParam("tableName") String tableName,
                                  HttpSession session) {

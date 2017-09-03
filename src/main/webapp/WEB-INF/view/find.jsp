@@ -19,7 +19,7 @@
                 <form action="delete-record" method="post">
                     <input type="hidden" name="record" value=${row[0]}>
                     <input type="hidden" name="tableName" value=${tableName}>
-                    <input type="submit" value="Clear"/>
+                    <input type="submit" value="Delete"/>
                 </form>
             </td>
             <td>
@@ -35,11 +35,7 @@
     </tr>
 </table>
 <br>
-<form action="insert-record">
-    <input type="hidden" name="table" value="${table[0]}">
-    <input type="hidden" name="tableName" value="${tableName}">
-        <input type="submit" value="Insert">
-</form>
+<a href="${tableName}/insert-record">Insert</a>
 <%@include file="footer.jsp" %>
 </body>
 </html>
