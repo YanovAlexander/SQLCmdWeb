@@ -16,6 +16,11 @@ public class NullDatabaseManager implements DatabaseManager {
     }
 
     @Override
+    public List<String> getColumnNames(String tableName) {
+        return null;
+    }
+
+    @Override
     public void connect(String databaseName, String userName, String password) {
         //NOP
     }
