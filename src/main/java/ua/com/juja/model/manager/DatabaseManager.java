@@ -30,6 +30,15 @@ public interface DatabaseManager {
     List<DataSet> getTableData(String tableName);
 
     /**
+     * Getting column names from required table.
+     * If table is empty, he come back empty List<String>
+     *
+     * @param tableName name of the required table
+     * @return List<DataSet> with table data
+     */
+    List<String> getColumnNames(String tableName);
+
+    /**
      * Connection method insertRecord connection to required database.
      *
      * @param databaseName name of the database

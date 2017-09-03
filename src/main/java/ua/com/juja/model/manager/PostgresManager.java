@@ -39,6 +39,8 @@ public class PostgresManager implements DatabaseManager {
     private static final String DELETE_RECORD = "DELETE FROM %s WHERE id = '%s'";
     private static final String DELETE_DATABASE = "DROP DATABASE %s";
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS %s(id INT NOT NULL PRIMARY KEY, %s)";
+    private static final String COLUMN_NAMES = "SELECT * FROM information_schema.columns " +
+            "WHERE table_schema = 'public' AND table_name = '%s'";
     private static final int DATABASE_NAME_INDEX = 1;
 
 
@@ -60,6 +62,12 @@ public class PostgresManager implements DatabaseManager {
                     }
                     return input;
                 });
+    }
+
+    @Override
+    public List<String> getColumnNames(String tableName) {
+        return template.query(String.format(COLUMN_NAMES, tableName),
+                (resultSet, rowNum) -> resultSet.getString("column_name"));
     }
 
     @Override
